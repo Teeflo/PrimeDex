@@ -74,15 +74,15 @@ export default function Header() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-50 w-full transition-all duration-500 ease-in-out px-4 py-4 md:px-6 md:py-5",
-          scrolled && "px-4 py-2 md:px-8 md:py-3 top-2 md:top-4"
+          "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-500 ease-in-out px-4 py-4 md:px-6 md:py-5",
+          scrolled && "px-2 py-2 md:px-4 md:py-3"
         )}
       >
         <div 
           className={cn(
             "mx-auto flex items-center transition-all duration-500 ease-in-out",
             scrolled 
-              ? "max-w-5xl bg-background/70 backdrop-blur-2xl border border-border shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] rounded-full px-4 py-2 md:px-6 md:py-3" 
+              ? "max-w-5xl bg-background/80 backdrop-blur-2xl border border-border shadow-[0_8px_32px_rgba(0,0,0,0.15)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.5)] rounded-full px-4 py-2 md:px-6 md:py-3" 
               : "container bg-transparent px-2"
           )}
         >

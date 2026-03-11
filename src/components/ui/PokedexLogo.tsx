@@ -43,12 +43,6 @@ export default function PokedexLogo({ className = 'w-10 h-10' }: PokedexLogoProp
         </div>
       </div>
 
-      {/* Optional decorative lights from original for flair */}
-      <motion.div 
-        className="absolute -top-1 -right-1 w-3 h-3 bg-cyan-400 rounded-full border border-black z-20 shadow-[0_0_8px_rgba(34,211,238,0.8)]"
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      />
     </motion.div>
   );
 }

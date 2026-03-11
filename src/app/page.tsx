@@ -10,7 +10,7 @@ import RecentlyViewed from '@/components/pokemon/RecentlyViewed';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-transparent relative overflow-hidden">
+    <div className="min-h-screen bg-transparent relative">
       <Header />
       
       <main className="container mx-auto px-4 py-8 relative z-10">

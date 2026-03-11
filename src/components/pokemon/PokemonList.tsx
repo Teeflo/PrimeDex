@@ -34,7 +34,17 @@ export default function PokemonList() {
   const loadMoreRef = useRef(null);
   const isInView = useInView(loadMoreRef, { margin: '200px' });
 
-  const isBasicMode = selectedTypes.length === 0 && !searchTerm && !selectedGeneration && !showFavoritesOnly && isLegendary === null && minBaseStats === 0 && heightRange[0] === 0 && heightRange[1] === 20 && weightRange[0] === 0 && weightRange[1] === 1000 && (sortBy === 'id-asc' || sortBy === 'id-desc' || sortBy === 'name-asc' || sortBy === 'name-desc');
+  const isBasicMode = selectedTypes.length === 0 && 
+    !searchTerm && 
+    !selectedGeneration && 
+    !showFavoritesOnly && 
+    isLegendary === null && 
+    minBaseStats === 0 && 
+    heightRange[0] === 0 && 
+    heightRange[1] === 20 && 
+    weightRange[0] === 0 && 
+    weightRange[1] === 1000 && 
+    sortBy === 'id-asc';
 
   // 1. Mode normal : Infinite Scroll pour tous les Pokémon
   const {
@@ -185,12 +195,12 @@ export default function PokemonList() {
 
     // On limite à 50 par défaut si on cherche par nom
     if (searchTerm) {
-      return sortedResults.slice(0, 50);
+      return sortedResults.slice(0, 100);
     }
     
-    // Si on a appliqué un filtre (type, gen, search, favoris, advanced), on affiche tout ce qui matche (avec une limite max pour pas exploser)
+    // Si on a appliqué un filtre (type, gen, search, favoris, advanced), on affiche tout ce qui matche
     if (!isBasicMode) {
-      return sortedResults.slice(0, 200); // 200 results max for filtered view
+      return sortedResults.slice(0, 500); // Increased limit for filtered/sorted views to show more results across the base
     }
 
     return sortedResults;
