@@ -19,6 +19,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useMemo, useEffect, useState, SVGProps } from 'react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 
 export default function TeamPage() {
   const { team, removeFromTeam, clearTeam } = usePokedexStore();
@@ -75,7 +76,7 @@ export default function TeamPage() {
         pokemonEffectiveness[t] = 1;
       });
 
-      p.types.forEach(pt => {
+      p.types.forEach(() => {
         const relations = typeRelationsQueries[queryIndex]?.data?.damage_relations;
         queryIndex++;
         if (relations) {
@@ -314,7 +315,14 @@ export default function TeamPage() {
               <div className="bg-background/50 p-3 rounded-xl border border-white/5 font-mono text-[10px] text-foreground/60 break-all mb-4 relative z-10">
                 {team.length > 0 ? team.join('-') : t('team.empty_team')}
               </div>
-              <Button disabled={team.length === 0} className="w-full rounded-xl font-black uppercase tracking-widest h-12 shadow-lg shadow-primary/20">
+              <Button 
+                disabled={team.length === 0} 
+                onClick={() => {
+                  navigator.clipboard.writeText(team.join('-'));
+                  toast.success(t('detail.copied'));
+                }}
+                className="w-full rounded-xl font-black uppercase tracking-widest h-12 shadow-lg shadow-primary/20"
+              >
                 {t('team.copy_code')}
               </Button>
             </div>

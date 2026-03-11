@@ -27,7 +27,7 @@ export default function RegionFilter() {
       transition={{ delay: 0.1, duration: 0.5 }}
       className="w-full pb-4 pt-2"
     >
-      <div className="flex flex-wrap gap-2 md:gap-3 justify-center px-4 mx-auto max-w-6xl">
+      <div className="flex flex-wrap lg:flex-nowrap gap-2 md:gap-3 justify-start lg:justify-center px-4 mx-auto w-full max-w-7xl overflow-x-auto scrollbar-hide">
         <div className="hidden sm:flex items-center gap-2 mr-2 px-3 py-2 bg-primary/10 rounded-full border border-primary/20">
           <Map className="w-4 h-4 text-primary" />
           <span className="text-[10px] font-black uppercase tracking-widest text-primary/80">Regions</span>

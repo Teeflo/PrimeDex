@@ -24,8 +24,12 @@ export default function PokemonList() {
     isLegendary,
     minBaseStats,
     heightRange,
-    weightRange
+    weightRange,
+    language,
+    systemLanguage
   } = usePokedexStore();
+  
+  const resolvedLang = language === 'auto' ? systemLanguage : language;
   
   const loadMoreRef = useRef(null);
   const isInView = useInView(loadMoreRef, { margin: '200px' });
@@ -56,19 +60,6 @@ export default function PokemonList() {
       staleTime: 10 * 60 * 1000,
     }))
   });
-
-  const typePokemon = useMemo(() => {
-    if (selectedTypes.length === 0) return null;
-    if (typeQueries.some(q => q.isLoading)) return [];
-    
-    const lists = typeQueries.map(q => q.data || []);
-    if (lists.length === 0) return [];
-    
-    return lists.reduce((acc, curr) => {
-      const currNames = new Set(curr.map(p => p.name));
-      return acc.filter(p => currNames.has(p.name));
-    });
-  }, [typeQueries, selectedTypes]);
 
   // 3. Mode Filtre par Génération
   const { data: genPokemon, isLoading: isLoadingGen } = useQuery({
@@ -107,7 +98,11 @@ export default function PokemonList() {
         base_stat_total: p.pokemon_v2_pokemonstats.reduce((acc, curr) => acc + curr.base_stat, 0),
         is_legendary: p.pokemon_v2_pokemonspecy?.is_legendary || false,
         is_mythical: p.pokemon_v2_pokemonspecy?.is_mythical || false,
-        types: p.pokemon_v2_pokemontypes.map(t => t.pokemon_v2_type.name)
+        types: p.pokemon_v2_pokemontypes.map(t => t.pokemon_v2_type.name),
+        localizedNames: p.pokemon_v2_pokemonspecy?.pokemon_v2_pokemonspeciesnames.map(n => ({
+          language: n.pokemon_v2_language.name,
+          name: n.name
+        }))
       }));
 
       // Base de données source: Type & Gen
@@ -122,8 +117,11 @@ export default function PokemonList() {
       }
 
       if (searchTerm) {
+        const lowerSearch = searchTerm.toLowerCase();
         results = results.filter((p) => 
-          p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.id.toString().includes(searchTerm)
+          p.name.toLowerCase().includes(lowerSearch) || 
+          p.id.toString().includes(lowerSearch) ||
+          p.localizedNames?.some(n => n.name.toLowerCase().includes(lowerSearch))
         );
       }
 
@@ -164,9 +162,17 @@ export default function PokemonList() {
     } else if (sortBy === 'id-desc') {
       sortedResults.sort((a, b) => b.id - a.id);
     } else if (sortBy === 'name-asc') {
-      sortedResults.sort((a, b) => a.name.localeCompare(b.name));
+      sortedResults.sort((a, b) => {
+        const nameA = a.localizedNames?.find(n => n.language === resolvedLang)?.name || a.name;
+        const nameB = b.localizedNames?.find(n => n.language === resolvedLang)?.name || b.name;
+        return nameA.localeCompare(nameB);
+      });
     } else if (sortBy === 'name-desc') {
-      sortedResults.sort((a, b) => b.name.localeCompare(a.name));
+      sortedResults.sort((a, b) => {
+        const nameA = a.localizedNames?.find(n => n.language === resolvedLang)?.name || a.name;
+        const nameB = b.localizedNames?.find(n => n.language === resolvedLang)?.name || b.name;
+        return nameB.localeCompare(nameA);
+      });
     } else if (sortBy === 'height-asc' && !isBasicMode) {
       sortedResults.sort((a, b) => (a.height || 0) - (b.height || 0));
     } else if (sortBy === 'height-desc' && !isBasicMode) {
@@ -188,7 +194,7 @@ export default function PokemonList() {
     }
 
     return sortedResults;
-  }, [infiniteData, allDetailed, typePokemon, genPokemon, searchTerm, selectedTypes, selectedGeneration, showFavoritesOnly, favorites, sortBy, isLegendary, minBaseStats, heightRange, weightRange, isBasicMode]);
+  }, [infiniteData, allDetailed, genPokemon, searchTerm, selectedTypes, selectedGeneration, showFavoritesOnly, favorites, sortBy, isLegendary, minBaseStats, heightRange, weightRange, isBasicMode, resolvedLang]);
 
   // Déclenchement automatique du chargement suivant
   useEffect(() => {
@@ -269,7 +275,18 @@ export default function PokemonList() {
           <PokemonCard 
             key={p.name} 
             name={p.name} 
-            url={p.url} 
+            url={p.url}
+            initialData={{
+              pokemon: {
+                id: p.id,
+                name: p.name,
+                types: p.types?.map((t, i) => ({ slot: i + 1, type: { name: t, url: '' } })),
+                localizedNames: p.localizedNames
+              } as Partial<PokemonDetail>,
+              species: {
+                names: p.localizedNames?.map(ln => ({ name: ln.name, language: { name: ln.language } }))
+              } as Partial<PokemonSpecies>
+            }}
           />
         ))}
       </div>

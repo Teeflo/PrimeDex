@@ -177,7 +177,7 @@ export const usePokedexStore = create<PokedexStore>()(
 
       language: 'auto',
       setLanguage: (lang) => set({ language: lang }),
-      systemLanguage: 'en',
+      systemLanguage: typeof window !== 'undefined' ? (navigator.language.split('-')[0] || 'en') : 'en',
       setSystemLanguage: (lang) => set({ systemLanguage: lang }),
     }),
     {

@@ -15,9 +15,9 @@ export default function Home() {
       
       <main className="container mx-auto px-4 py-8 relative z-10">
         <section className="text-center mb-12 pt-10">
-          <div className="inline-block mb-6 relative">
-            <div className="absolute inset-0 bg-primary/20 blur-3xl rounded-full" />
-            <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary via-primary to-primary/50 tracking-tighter drop-shadow-sm relative z-10">
+          <div className="inline-block mb-6 relative group">
+            <div className="absolute inset-0 bg-primary/30 blur-3xl rounded-full group-hover:bg-primary/50 transition-colors duration-700" />
+            <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary to-orange-500 tracking-tighter drop-shadow-sm relative z-10">
               Gotta Catch &apos;Em All!
             </h2>
           </div>
@@ -33,7 +33,7 @@ export default function Home() {
                 <FavoriteToggle />
                 <AdvancedFilters />
               </div>
-              <div className="h-px flex-1 bg-white/5 hidden md:block" />
+              <div className="h-px flex-1 bg-border/50 hidden md:block" />
               <SortSelector />
             </div>
 
@@ -48,7 +48,7 @@ export default function Home() {
         <RecentlyViewed />
       </main>
 
-      <footer className="py-12 text-center text-xs text-foreground/40 font-semibold border-t border-white/5 mt-20 bg-background/40 backdrop-blur-md relative z-10">
+      <footer className="py-12 text-center text-xs text-foreground/40 font-semibold border-t border-border mt-20 bg-background/40 backdrop-blur-xl relative z-10">
         <p>Pokédex Generation © {new Date().getFullYear()}</p>
         <p className="mt-4 opacity-50">Data provided by PokéAPI</p>
       </footer>

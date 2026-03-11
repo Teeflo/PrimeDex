@@ -1,8 +1,7 @@
 'use client';
 
-import Link from 'next/link';
+import Link, { LinkProps } from 'next/link';
 import { 
-  Gamepad2, 
   Settings, 
   Sun, 
   Moon, 
@@ -12,19 +11,24 @@ import {
 } from 'lucide-react';
 import { usePokedexStore } from '@/store/pokedex';
 import SettingsModal from './SettingsModal';
-import { useEffect, useState, ButtonHTMLAttributes } from 'react';
+import { useEffect, useState, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useTranslation } from 'react-i18next';
+import PokedexLogo from '@/components/ui/PokedexLogo';
 
-interface HeaderButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface HeaderLinkProps extends LinkProps {
+  children: ReactNode;
   variant?: 'ghost' | 'default' | 'outline' | 'destructive';
   size?: 'default' | 'sm' | 'lg' | 'icon';
+  className?: string;
+  title?: string;
 }
 
-function HeaderButton({ children, variant, size, className, ...props }: HeaderButtonProps) {
+function HeaderLink({ children, href, variant, size, className, ...props }: HeaderLinkProps) {
   return (
-    <button
+    <Link
+      href={href}
       className={cn(
         "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
         variant === "ghost" && "hover:bg-accent hover:text-accent-foreground",
@@ -34,7 +38,7 @@ function HeaderButton({ children, variant, size, className, ...props }: HeaderBu
       {...props}
     >
       {children}
-    </button>
+    </Link>
   );
 }
 
@@ -69,62 +73,63 @@ export default function Header() {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-          scrolled 
-            ? 'bg-background/60 backdrop-blur-xl border-b border-border shadow-sm py-3' 
-            : 'bg-transparent py-5'
-        }`}
+        className={cn(
+          "sticky top-0 z-50 w-full transition-all duration-500 ease-in-out px-4 py-4 md:px-6 md:py-5",
+          scrolled && "px-4 py-2 md:px-8 md:py-3 top-2 md:top-4"
+        )}
       >
-        <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-          <Link href="/" className="flex items-center gap-3 group" aria-label="Go to Pokédex Home">
-            <motion.div 
-              whileHover={{ rotate: 15, scale: 1.1 }}
-              className="p-2 rounded-xl bg-gradient-to-br from-primary/80 to-primary text-white shadow-lg shadow-primary/20"
-            >
-              <Gamepad2 className="w-5 h-5 md:w-6 md:h-6" />
-            </motion.div>
-            <h1 className="text-xl md:text-2xl font-black text-foreground tracking-tight flex items-center">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">
-                Poké
-              </span>
-              dex
-            </h1>
-          </Link>
+        <div 
+          className={cn(
+            "mx-auto flex items-center transition-all duration-500 ease-in-out",
+            scrolled 
+              ? "max-w-5xl bg-background/70 backdrop-blur-2xl border border-border shadow-[0_8px_32px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] rounded-full px-4 py-2 md:px-6 md:py-3" 
+              : "container bg-transparent px-2"
+          )}
+        >
+          <div className="flex-1 flex items-center justify-start">
+            <Link href="/" className="flex items-center gap-3 group" aria-label="Go to Pokédex Home">
+              <PokedexLogo className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-105" />
+              <h1 className="text-xl md:text-2xl font-black text-foreground tracking-tighter flex items-center drop-shadow-sm group-hover:drop-shadow-[0_0_8px_rgba(227,53,13,0.4)] transition-all">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-500">
+                  Poké
+                </span>
+                dex
+              </h1>
+            </Link>
+          </div>
 
-          <nav className="hidden lg:flex items-center gap-1 bg-secondary/30 backdrop-blur-md border border-white/5 p-1 rounded-2xl">
-            <Link href="/team">
-              <HeaderButton variant="ghost" size="sm" className="rounded-xl gap-2 font-black uppercase tracking-widest text-[10px] hover:bg-primary/10 hover:text-primary transition-colors">
-                <Users className="w-3.5 h-3.5" /> {t('nav.team')}
-              </HeaderButton>
-            </Link>
-            <Link href="/quiz">
-              <HeaderButton variant="ghost" size="sm" className="rounded-xl gap-2 font-black uppercase tracking-widest text-[10px] hover:bg-primary/10 hover:text-primary transition-colors">
-                <BrainCircuit className="w-3.5 h-3.5" /> {t('nav.quiz')}
-              </HeaderButton>
-            </Link>
+          <nav className="hidden lg:flex items-center gap-2 bg-secondary/40 backdrop-blur-md border border-white/10 p-1 rounded-full shadow-sm">
+            <HeaderLink href="/team" variant="ghost" size="sm" className="rounded-full gap-2 font-black uppercase tracking-widest text-[10.5px] hover:bg-primary/10 hover:text-primary transition-all">
+              <Users className="w-3.5 h-3.5" /> {t('nav.team')}
+            </HeaderLink>
+            <HeaderLink href="/quiz" variant="ghost" size="sm" className="rounded-full gap-2 font-black uppercase tracking-widest text-[10.5px] hover:bg-primary/10 hover:text-primary transition-all">
+              <BrainCircuit className="w-3.5 h-3.5" /> {t('nav.quiz')}
+            </HeaderLink>
           </nav>
 
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="flex-1 flex items-center justify-end gap-1.5 md:gap-2">
             <Link href="/favorites">
-              <motion.button
+              <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="p-2.5 rounded-full bg-secondary/50 backdrop-blur-sm border border-border text-foreground hover:bg-red-500/10 hover:text-red-500 transition-colors flex items-center gap-2"
+                className="p-2 md:p-2.5 rounded-full bg-secondary/50 backdrop-blur-md border border-border text-foreground hover:bg-red-500/10 hover:text-red-500 transition-colors flex items-center gap-2 shadow-sm cursor-pointer"
                 title={t('nav.favorites')}
               >
                 <Heart className="w-4 h-4 md:w-5 md:h-5" />
                 <span className="hidden xl:inline text-xs font-black uppercase tracking-widest px-1">{t('nav.favorites')}</span>
-              </motion.button>
+              </motion.div>
             </Link>
 
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={cycleTheme}
-              className="p-2.5 rounded-full bg-secondary/50 backdrop-blur-sm border border-border text-foreground hover:bg-accent transition-colors"
+              className="p-2 md:p-2.5 rounded-full bg-secondary/50 backdrop-blur-md border border-border text-foreground hover:bg-accent transition-colors shadow-sm"
               title={`${t('settings.theme')}: ${theme}`}
             >
-              {mounted && isDark ? (
+              {!mounted ? (
+                <div className="w-4 h-4 md:w-5 md:h-5" />
+              ) : isDark ? (
                 <Moon className="w-4 h-4 md:w-5 md:h-5 text-blue-400" />
               ) : (
                 <Sun className="w-4 h-4 md:w-5 md:h-5 text-amber-500" />
@@ -132,10 +137,10 @@ export default function Header() {
             </motion.button>
             
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, rotate: 45 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleSettings}
-              className="p-2.5 rounded-full bg-secondary/50 backdrop-blur-sm border border-border text-foreground hover:bg-accent transition-colors"
+              className="p-2 md:p-2.5 rounded-full bg-secondary/50 backdrop-blur-md border border-border text-foreground hover:bg-accent transition-all shadow-sm"
               title={t('settings.title')}
             >
               <Settings className="w-4 h-4 md:w-5 md:h-5" />

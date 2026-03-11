@@ -6,6 +6,8 @@ import { ArrowRight, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
+import Image from 'next/image';
+
 interface EvolutionChainProps {
   url: string;
 }
@@ -30,7 +32,7 @@ function EvolutionItem({ name }: { name: string }) {
   });
 
   return (
-    <Link href={`/pokemon/${name}`}>
+    <Link href={`/pokemon/${name}`} className="relative z-10 hover:z-20">
       <motion.div
         whileHover={{ y: -5, scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -39,12 +41,12 @@ function EvolutionItem({ name }: { name: string }) {
         <div className="w-20 h-20 md:w-28 md:h-28 bg-secondary/30 border border-white/5 rounded-[2rem] flex items-center justify-center p-3 group-hover:bg-primary/10 group-hover:border-primary/30 transition-all duration-300 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           {sprite ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={sprite}
               alt={name}
+              width={112}
+              height={112}
               className="w-full h-full object-contain filter drop-shadow-md group-hover:scale-110 transition-transform duration-300 relative z-10"
-              loading="lazy"
             />
           ) : (
             <Loader2 className="w-6 h-6 animate-spin text-foreground/20" />

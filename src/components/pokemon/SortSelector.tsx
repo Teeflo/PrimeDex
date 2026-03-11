@@ -31,7 +31,7 @@ export default function SortSelector() {
   return (
     <div className="flex items-center gap-3">
       <span className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/30 hidden sm:block">{t('sort.label')}</span>
-      <Select value={sortBy} onValueChange={(val: SortValue | null) => val && setSortBy(val as any)}>
+      <Select value={sortBy} onValueChange={(val: SortValue | null) => val && setSortBy(val)}>
         <SelectTrigger className="w-[200px] rounded-full bg-secondary/40 backdrop-blur-md border-white/10 text-xs font-bold uppercase tracking-wider h-10 focus:ring-primary/30">
           <SelectValue placeholder={t('sort.placeholder')} />
         </SelectTrigger>

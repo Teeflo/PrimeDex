@@ -106,7 +106,16 @@ export interface PokemonBasicData {
   height: number;
   weight: number;
   pokemon_v2_pokemonstats: { base_stat: number }[];
-  pokemon_v2_pokemonspecy: { is_legendary: boolean; is_mythical: boolean } | null;
+  pokemon_v2_pokemonspecy: { 
+    is_legendary: boolean; 
+    is_mythical: boolean;
+    pokemon_v2_pokemonspeciesnames: {
+      name: string;
+      pokemon_v2_language: {
+        name: string;
+      };
+    }[];
+  } | null;
   pokemon_v2_pokemontypes: { pokemon_v2_type: { name: string } }[];
 }
 

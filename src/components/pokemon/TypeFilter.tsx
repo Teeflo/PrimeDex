@@ -17,7 +17,7 @@ export default function TypeFilter() {
       transition={{ delay: 0.2, duration: 0.5 }}
       className="w-full overflow-x-auto pb-8 pt-4 scrollbar-hide"
     >
-      <div className="flex flex-nowrap md:flex-wrap gap-3 justify-start md:justify-center px-4 min-w-max md:min-w-0 mx-auto max-w-6xl">
+      <div className="flex flex-nowrap lg:flex-wrap gap-3 justify-start lg:justify-center px-4 min-w-max lg:min-w-0 mx-auto max-w-7xl">
         <AnimatePresence>
           {selectedTypes.length > 0 && (
             <motion.button

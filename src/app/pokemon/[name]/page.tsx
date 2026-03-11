@@ -31,6 +31,8 @@ import { toast } from 'sonner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useTranslation } from 'react-i18next';
 
+import Image from 'next/image';
+
 const STAT_LABELS: Record<string, string> = {
   'hp': 'HP',
   'attack': 'ATK',
@@ -38,21 +40,6 @@ const STAT_LABELS: Record<string, string> = {
   'special-attack': 'SP.ATK',
   'special-defense': 'SP.DEF',
   'speed': 'SPD',
-};
-
-const LANGUAGES = {
-  en: '🇬🇧',
-  fr: '🇫🇷',
-  de: '🇩🇪',
-  es: '🇪🇸',
-  it: '🇮🇹',
-  ja: '🇯🇵',
-  'ja-Hrkt': '🇯🇵',
-  ko: '🇰🇷',
-  'zh-Hant': '🇨🇳',
-  'zh-Hans': '🇨🇳',
-  ru: '🇷🇺',
-  th: '🇹🇭',
 };
 
 const HABITATS: Record<string, string> = {
@@ -279,11 +266,13 @@ export default function PokemonDetailPage() {
               className="absolute inset-0 rounded-full blur-[60px] opacity-40 group-hover:scale-110 transition-transform duration-700 pointer-events-none"
               style={{ backgroundColor: color }}
             />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={artwork}
               alt={displayName}
+              width={400}
+              height={400}
               className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.3)] relative z-10 transition-transform duration-700 group-hover:scale-110 group-hover:-translate-y-4"
+              priority
             />
           </motion.div>
         </AnimatePresence>
@@ -426,7 +415,11 @@ export default function PokemonDetailPage() {
               </div>
 
               <div className="glass-panel p-6 md:p-8 rounded-[2.5rem]">
-                <HeightComparison pokemonHeight={pokemon.height} pokemonName={displayName} />
+                <HeightComparison 
+                  pokemonHeight={pokemon.height} 
+                  pokemonName={displayName} 
+                  pokemonImage={pokemon.sprites.other['official-artwork'].front_default || pokemon.sprites.front_default}
+                />
               </div>
             </TabsContent>
 

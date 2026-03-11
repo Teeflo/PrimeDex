@@ -39,6 +39,13 @@ export const getAllPokemonDetailed = async () => {
         pokemon_v2_pokemonspecy {
           is_legendary
           is_mythical
+          pokemon_v2_pokemonspeciesnames {
+            language_id
+            name
+            pokemon_v2_language {
+              name
+            }
+          }
         }
         pokemon_v2_pokemontypes {
           pokemon_v2_type {
