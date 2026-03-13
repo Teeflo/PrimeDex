@@ -1,7 +1,7 @@
 # <p align="center">🎮 PrimeDex</p>
 
 <p align="center">
-  <strong>The Ultimate High-Performance Pokémon Dashboard</strong><br>
+  <strong>Le Pokédex haute performance pour les gamers. Dashboard ultra-fluide bâti avec Next.js 16 et React 19. Architecture type-safe, glassmorphism, et synchronisation en temps réel via PokéAPI.</strong><br>
   <a href="https://primedex.vercel.app/">primedex.vercel.app</a>
 </p>
 
