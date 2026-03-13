@@ -1,15 +1,6 @@
 export const resources = {
   en: {
     translation: {
-      onboarding: {
-        steps: {
-          welcome: { title: 'Welcome to NeoDex', desc: 'Your ultimate companion for everything Pokémon.' },
-          filters: { title: 'Advanced Search', desc: 'Use filters to find exactly what you are looking for.' },
-          team: { title: 'Team Builder', desc: 'Build your dream team and analyze its weaknesses.' },
-          compare: { title: 'Compare', desc: 'Compare stats and types side-by-side.' },
-          quiz: { title: 'Pokémon Quiz', desc: 'Test your knowledge in our interactive quiz!' }
-        }
-      },
       types_page: {
         title: 'Type Master',
         subtitle: 'Master the elements and conquer every battle',
@@ -563,15 +554,6 @@ export const resources = {
   },
   fr: {
     translation: {
-      onboarding: {
-        steps: {
-          welcome: { title: 'Bienvenue sur NeoDex', desc: 'Votre compagnon ultime pour tout ce qui concerne les Pokémon.' },
-          filters: { title: 'Recherche Avancée', desc: 'Utilisez les filtres pour trouver exactement ce que vous cherchez.' },
-          team: { title: 'Constructeur d\'équipe', desc: 'Créez l\'équipe de vos rêves et analysez ses faiblesses.' },
-          compare: { title: 'Comparer', desc: 'Comparez les statistiques et les types côte à côte.' },
-          quiz: { title: 'Quiz Pokémon', desc: 'Testez vos connaissances dans notre quiz interactif !' }
-        }
-      },
       types_page: {
         title: 'Maître des Types',
         subtitle: 'Maîtrisez les éléments et conquérez chaque combat',
@@ -1125,15 +1107,6 @@ export const resources = {
   },
   es: {
     translation: {
-      onboarding: {
-        steps: {
-          welcome: { title: 'Bienvenido a NeoDex', desc: 'Tu compañero definitivo para todo lo relacionado con Pokémon.' },
-          filters: { title: 'Búsqueda Avanzada', desc: 'Usa filtros para encontrar exactamente lo que buscas.' },
-          team: { title: 'Constructor de Equipo', desc: 'Crea el equipo de tus sueños y analiza sus debilidades.' },
-          compare: { title: 'Comparar', desc: 'Compara estadísticas y tipos lado a lado.' },
-          quiz: { title: 'Quiz Pokémon', desc: '¡Pon a prueba tus conocimientos en nuestro quiz interactivo!' }
-        }
-      },
       types_page: {
         title: 'Maestro de Tipos',
         subtitle: 'Domina los elementos y conquista cada batalla',
@@ -1681,15 +1654,6 @@ export const resources = {
   },
   de: {
     translation: {
-      onboarding: {
-        steps: {
-          welcome: { title: 'Willkommen bei NeoDex', desc: 'Dein ultimativer Begleiter für alles rund um Pokémon.' },
-          filters: { title: 'Erweiterte Suche', desc: 'Verwende Filter, um genau das zu finden, wonach du suchst.' },
-          team: { title: 'Team-Builder', desc: 'Stelle dein Traumteam zusammen und analysiere seine Schwächen.' },
-          compare: { title: 'Vergleichen', desc: 'Vergleiche Statistiken und Typen Seite an Seite.' },
-          quiz: { title: 'Pokémon-Quiz', desc: 'Teste dein Wissen in unserem interaktiven Quiz!' }
-        }
-      },
       types_page: {
         title: 'Typen-Meister',
         subtitle: 'Meistere die Elemente und besiege jeden Gegner',
@@ -2237,15 +2201,6 @@ export const resources = {
   },
   it: {
     translation: {
-      onboarding: {
-        steps: {
-          welcome: { title: 'Benvenuto su NeoDex', desc: 'Il tuo compagno definitivo per tutto ciò che riguarda i Pokémon.' },
-          filters: { title: 'Ricerca Avanzata', desc: 'Usa i filtri per trovare esattamente ciò che stai cercando.' },
-          team: { title: 'Costruttore di Squadre', desc: 'Crea la squadra dei tuoi sogni e analizzane le debolezze.' },
-          compare: { title: 'Confronta', desc: 'Confronta statistiche e tipi fianco a fianco.' },
-          quiz: { title: 'Quiz Pokémon', desc: 'Metti alla prova le tue conoscenze nel nostro quiz interattivo!' }
-        }
-      },
       home: {
         hero_title: 'NeoDex',
         hero_subtitle: 'Il tuo compagno Pokémon definitivo',
@@ -2778,15 +2733,6 @@ export const resources = {
   },
   ja: {
     translation: {
-      onboarding: {
-        steps: {
-          welcome: { title: 'NeoDexへようこそ', desc: 'ポケモンに関する究極のパートナーです。' },
-          filters: { title: '高度な検索', desc: 'フィルターを使用して、探しているものを正確に見つけます。' },
-          team: { title: 'チームビルダー', desc: '夢のチームを作り、弱点を分析します。' },
-          compare: { title: '比較', desc: 'ステータスとタイプを並べて比較します。' },
-          quiz: { title: 'ポケモンクイズ', desc: 'インタラクティブなクイズで知識を試しましょう！' }
-        }
-      },
       types_page: {
         title: 'タイプマスター',
         subtitle: '属性を極めてバトルを制そう',
@@ -3332,15 +3278,6 @@ export const resources = {
   },
   ko: {
     translation: {
-      onboarding: {
-        steps: {
-          welcome: { title: 'NeoDex에 오신 것을 환영합니다', desc: '포켓몬의 모든 것을 위한 최고의 동반자입니다.' },
-          filters: { title: '고급 검색', desc: '필터를 사용하여 원하는 것을 정확히 찾으세요.' },
-          team: { title: '팀 빌더', desc: '꿈의 팀을 만들고 약점을 분석하세요.' },
-          compare: { title: '비교', desc: '스탯과 타입을 나란히 비교하세요.' },
-          quiz: { title: '포켓몬 퀴즈', desc: '인터랙티브 퀴즈로 지식을 테스트하세요!' }
-        }
-      },
       types_page: {
         title: '타입 마스터',
         subtitle: '속성을 마스터하고 모든 배틀에서 승리하세요',

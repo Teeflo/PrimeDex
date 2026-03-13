@@ -123,10 +123,6 @@ interface NeoDexStore {
   };
   updateQuizHighScore: (mode: 'survival' | 'marathon' | 'classic' | 'silhouette' | 'stats', score: number) => void;
 
-  // Onboarding
-  hasCompletedOnboarding: boolean;
-  setHasCompletedOnboarding: (completed: boolean) => void;
-
   // Settings
   isSettingsOpen: boolean;
   toggleSettings: () => void;
@@ -314,10 +310,6 @@ export const useNeoDexStore = create<NeoDexStore>()(
         }
       })),
 
-      // Onboarding
-      hasCompletedOnboarding: false,
-      setHasCompletedOnboarding: (completed) => set({ hasCompletedOnboarding: completed }),
-
       isSettingsOpen: false,
       toggleSettings: () => set((state) => ({ isSettingsOpen: !state.isSettingsOpen })),
       soundEnabled: true,
@@ -379,7 +371,6 @@ export const useNeoDexStore = create<NeoDexStore>()(
         history: state.history,
         badges: state.badges,
         quizHighScores: state.quizHighScores,
-        hasCompletedOnboarding: state.hasCompletedOnboarding,
         soundEnabled: state.soundEnabled,
         theme: state.theme,
         language: state.language,
