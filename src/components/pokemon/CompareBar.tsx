@@ -1,6 +1,6 @@
 'use client';
 
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { useQueries } from '@tanstack/react-query';
 import axios from 'axios';
 import { PokemonDetail } from '@/types/pokemon';
@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 export default function CompareBar() {
-  const { language, systemLanguage, compareList, removeFromCompare, clearCompare } = useNeoDexStore();
+  const { language, systemLanguage, compareList, removeFromCompare, clearCompare } = usePrimeDexStore();
   const { t, i18n } = useTranslation();
   const [mounted, setMounted] = useState(false);
 

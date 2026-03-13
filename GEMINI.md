@@ -1,9 +1,9 @@
-# 📔 NeoDex : Mandats Fondamentaux
+# 📔 PrimeDex : Mandats Fondamentaux
 
 This document serves as the absolute authority for development within this workspace. Its instructions take precedence over any global defaults.
 
 ## 🚀 Vision & Quality Bar
-The NeoDex is a high-performance **Gaming Dashboard**. Every interaction must be responsive, visual fidelity must be high (glassmorphism, Framer Motion), and the architecture strictly type-safe.
+The PrimeDex is a high-performance **Gaming Dashboard**. Every interaction must be responsive, visual fidelity must be high (glassmorphism, Framer Motion), and the architecture strictly type-safe.
 
 ## 🛠 Core Tech Stack
 - **Framework**: Next.js 16 (App Router)

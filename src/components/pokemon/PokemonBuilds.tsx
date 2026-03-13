@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 import { cn, formatName } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { useState, useEffect } from 'react';
 
 interface PokemonBuildsProps {
@@ -24,7 +24,7 @@ interface PokemonBuildsProps {
 
 export function PokemonBuilds({ pokemon }: PokemonBuildsProps) {
   const { t, i18n } = useTranslation();
-  const { language, systemLanguage } = useNeoDexStore();
+  const { language, systemLanguage } = usePrimeDexStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { TYPE_COLORS } from '@/types/pokemon';
 import { cn } from '@/lib/utils';
 import { X } from 'lucide-react';
@@ -8,7 +8,7 @@ import { m, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/lib/i18n';
 
 export default function TypeFilter() {
-  const { selectedTypes, toggleType, setSelectedTypes } = useNeoDexStore();
+  const { selectedTypes, toggleType, setSelectedTypes } = usePrimeDexStore();
   const types = Object.keys(TYPE_COLORS);
   const { t } = useTranslation();
 

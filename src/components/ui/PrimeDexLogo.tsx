@@ -2,11 +2,11 @@
 
 import { m } from 'framer-motion';
 
-interface NeoDexLogoProps {
+interface PrimeDexLogoProps {
   className?: string;
 }
 
-export default function NeoDexLogo({ className = 'w-10 h-10' }: NeoDexLogoProps) {
+export default function PrimeDexLogo({ className = 'w-10 h-10' }: PrimeDexLogoProps) {
   return (
     <m.div 
       className={`relative flex items-center justify-center ${className}`}
@@ -46,4 +46,3 @@ export default function NeoDexLogo({ className = 'w-10 h-10' }: NeoDexLogoProps)
     </m.div>
   );
 }
-

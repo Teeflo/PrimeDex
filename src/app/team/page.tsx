@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/layout/Header';
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { useQueries } from '@tanstack/react-query';
 import { getPokemonDetail, getPokemonSpecies, getTypeRelations } from '@/lib/api';
 import { PokemonDetail, TYPE_COLORS } from '@/types/pokemon';
@@ -41,7 +41,7 @@ import { getAllPokemonDetailed } from '@/lib/api';
 import Image from 'next/image';
 
 export default function TeamPage() {
-  const { language, systemLanguage, team, addToTeam, removeFromTeam, clearTeam } = useNeoDexStore();
+  const { language, systemLanguage, team, addToTeam, removeFromTeam, clearTeam } = usePrimeDexStore();
   const [mounted, setMounted] = useState(false);
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
   const [isAutoCompleting, setIsAutoCompleting] = useState(false);

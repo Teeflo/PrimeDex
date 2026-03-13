@@ -7,7 +7,7 @@ import { resources } from './i18n-resources';
 // Try to get initial language synchronously from localStorage
 const getInitialLang = () => {
   if (typeof window === 'undefined') return 'en';
-  return localStorage.getItem('neodex-lang') || 'en';
+  return localStorage.getItem('primedex-lang') || 'en';
 };
 
 i18n

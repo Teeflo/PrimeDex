@@ -1,6 +1,6 @@
 'use client';
 
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { cn } from '@/lib/utils';
 import { X, Map } from 'lucide-react';
 import { m, AnimatePresence } from 'framer-motion';
@@ -19,7 +19,7 @@ const REGIONS = [
 ];
 
 export default function RegionFilter() {
-  const { selectedGeneration, setSelectedGeneration } = useNeoDexStore();
+  const { selectedGeneration, setSelectedGeneration } = usePrimeDexStore();
   const { t } = useTranslation();
 
   return (

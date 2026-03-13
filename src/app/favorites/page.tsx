@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/layout/Header';
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { useQuery } from '@tanstack/react-query';
 import { getAllPokemonNames } from '@/lib/api';
 import { PokemonCard } from '@/components/pokemon/PokemonCard';
@@ -24,7 +24,7 @@ function FavoriteButton({ children, className, ...props }: FavoriteButtonProps) 
 }
 
 export default function FavoritesPage() {
-  const { favorites } = useNeoDexStore();
+  const { favorites } = usePrimeDexStore();
   const [mounted, setMounted] = useState(false);
   const { t } = useTranslation();
 

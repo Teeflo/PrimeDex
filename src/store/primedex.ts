@@ -20,7 +20,7 @@ const storage: StateStorage = {
 
 type Theme = 'light' | 'dark' | 'system';
 
-interface NeoDexStore {
+interface PrimeDexStore {
   favorites: number[];
   addFavorite: (id: number) => void;
   removeFavorite: (id: number) => void;
@@ -145,7 +145,7 @@ interface NeoDexStore {
   setHasHydrated: (state: boolean) => void;
 }
 
-export const useNeoDexStore = create<NeoDexStore>()(
+export const usePrimeDexStore = create<PrimeDexStore>()(
   persist(
     (set, get) => ({
       favorites: [],
@@ -340,7 +340,7 @@ export const useNeoDexStore = create<NeoDexStore>()(
       setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
     {
-      name: 'neodex-storage',
+      name: 'primedex-storage',
       storage: createJSONStorage(() => storage),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);

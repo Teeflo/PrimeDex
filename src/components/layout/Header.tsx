@@ -10,13 +10,13 @@ import {
   BrainCircuit,
   Languages
 } from 'lucide-react';
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import SettingsModal from './SettingsModal';
 import { useEffect, useState, ReactNode } from 'react';
 import { m } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
-import NeoDexLogo from '@/components/ui/NeoDexLogo';
+import PrimeDexLogo from '@/components/ui/PrimeDexLogo';
 
 interface HeaderLinkProps extends LinkProps {
   children: ReactNode;
@@ -44,7 +44,7 @@ function HeaderLink({ children, href, variant, size, className, ...props }: Head
 }
 
 export default function Header() {
-  const { toggleSettings, theme, setTheme, caughtPokemon, language, setLanguage } = useNeoDexStore();
+  const { toggleSettings, theme, setTheme, caughtPokemon, language, setLanguage } = usePrimeDexStore();
   const { t, i18n } = useTranslation();
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -102,11 +102,11 @@ export default function Header() {
         >
           <div className="flex-1 flex items-center justify-start">
             <Link href="/" className="flex items-center gap-3 group" aria-label={t('header.home_aria')}>
-              <NeoDexLogo className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-105" />
+              <PrimeDexLogo className="w-8 h-8 md:w-10 md:h-10 transition-transform group-hover:scale-105" />
               <div className="flex flex-col">
                 <h1 className="text-xl md:text-2xl font-black text-foreground tracking-tighter flex items-center drop-shadow-sm group-hover:drop-shadow-[0_0_8px_rgba(227,53,13,0.4)] transition-all leading-none">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-500">
-                    Neo
+                    Prime
                   </span>
                   Dex
                 </h1>

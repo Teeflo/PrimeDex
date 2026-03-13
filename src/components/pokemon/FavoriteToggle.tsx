@@ -1,13 +1,13 @@
 'use client';
 
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { Heart } from 'lucide-react';
 import { m } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n';
 
 export default function FavoriteToggle() {
-  const { showFavoritesOnly, setShowFavoritesOnly, favorites } = useNeoDexStore();
+  const { showFavoritesOnly, setShowFavoritesOnly, favorites } = usePrimeDexStore();
   const { t } = useTranslation();
 
   return (

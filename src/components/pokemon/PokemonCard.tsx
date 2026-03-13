@@ -3,7 +3,7 @@ import axios from 'axios';
 import { PokemonDetail, PokemonSpecies, TYPE_COLORS } from '@/types/pokemon';
 import { m } from 'framer-motion';
 import { Heart, ArrowLeftRight, Plus, Minus } from 'lucide-react';
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { cn, formatId } from '@/lib/utils';
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n';
@@ -57,20 +57,20 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
   }, []);
   
   // Use atomic selectors to prevent unnecessary re-renders
-  const language = useNeoDexStore(s => s.language);
-  const systemLanguage = useNeoDexStore(s => s.systemLanguage);
-  const favorites = useNeoDexStore(s => s.favorites);
-  const compareList = useNeoDexStore(s => s.compareList);
-  const team = useNeoDexStore(s => s.team);
-  const caughtPokemon = useNeoDexStore(s => s.caughtPokemon);
+  const language = usePrimeDexStore(s => s.language);
+  const systemLanguage = usePrimeDexStore(s => s.systemLanguage);
+  const favorites = usePrimeDexStore(s => s.favorites);
+  const compareList = usePrimeDexStore(s => s.compareList);
+  const team = usePrimeDexStore(s => s.team);
+  const caughtPokemon = usePrimeDexStore(s => s.caughtPokemon);
   
-  const addFavorite = useNeoDexStore(s => s.addFavorite);
-  const removeFavorite = useNeoDexStore(s => s.removeFavorite);
-  const addToCompare = useNeoDexStore(s => s.addToCompare);
-  const removeFromCompare = useNeoDexStore(s => s.removeFromCompare);
-  const addToTeam = useNeoDexStore(s => s.addToTeam);
-  const removeFromTeam = useNeoDexStore(s => s.removeFromTeam);
-  const toggleCaught = useNeoDexStore(s => s.toggleCaught);
+  const addFavorite = usePrimeDexStore(s => s.addFavorite);
+  const removeFavorite = usePrimeDexStore(s => s.removeFavorite);
+  const addToCompare = usePrimeDexStore(s => s.addToCompare);
+  const removeFromCompare = usePrimeDexStore(s => s.removeFromCompare);
+  const addToTeam = usePrimeDexStore(s => s.addToTeam);
+  const removeFromTeam = usePrimeDexStore(s => s.removeFromTeam);
+  const toggleCaught = usePrimeDexStore(s => s.toggleCaught);
 
   const resolvedLang = language === 'auto' ? systemLanguage : language;
 

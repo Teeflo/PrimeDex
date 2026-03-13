@@ -1,13 +1,13 @@
 'use client';
 
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { m } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { SVGProps } from 'react';
 import { useTranslation } from '@/lib/i18n';
 
 export default function CaughtFilter() {
-  const { showCaughtOnly, setShowCaughtOnly } = useNeoDexStore();
+  const { showCaughtOnly, setShowCaughtOnly } = usePrimeDexStore();
   const { t } = useTranslation();
 
   const modes: { id: 'all' | 'caught' | 'uncaught', label: string }[] = [

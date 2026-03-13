@@ -1,6 +1,6 @@
 'use client';
 
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { Search, X } from 'lucide-react';
 import { m, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState, useCallback } from 'react';
@@ -11,7 +11,7 @@ import { pokemonKeys } from '@/lib/api/keys';
 import { getAllPokemonSummary } from '@/lib/api';
 
 export default function SearchBar() {
-  const { searchTerm, setSearchTerm, language, systemLanguage } = useNeoDexStore();
+  const { searchTerm, setSearchTerm, language, systemLanguage } = usePrimeDexStore();
   const [localSearch, setLocalSearch] = useState(searchTerm);
   const [mounted, setMounted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);

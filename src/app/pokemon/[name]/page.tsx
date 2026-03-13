@@ -25,7 +25,7 @@ import {
 } from 'lucide-react';
 import { PokemonEncounter, TYPE_COLORS } from '@/types/pokemon';
 import { m, AnimatePresence } from 'framer-motion';
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { cn, formatId, formatName } from '@/lib/utils';
 import React, { useState, useMemo, useEffect } from 'react';
 import dynamic from 'next/dynamic';
@@ -69,7 +69,7 @@ export default function PokemonDetailPage() {
   const router = useRouter();
   const [showShiny, setShowShiny] = useState(false);
   const [playingCry, setPlayingCry] = useState<'latest' | 'legacy' | null>(null);
-  const { isFavorite, addFavorite, removeFavorite, addToHistory, language, systemLanguage } = useNeoDexStore();
+  const { isFavorite, addFavorite, removeFavorite, addToHistory, language, systemLanguage } = usePrimeDexStore();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -93,7 +93,7 @@ export default function PokemonDetailPage() {
   const { data, isLoading } = useQuery({
     queryKey: ['pokemon-full-detail', name, resolvedLang],
     queryFn: async () => {
-      const langId = useNeoDexStore.getState().getLanguageId();
+      const langId = usePrimeDexStore.getState().getLanguageId();
       const [pokemon, species, localized] = await Promise.all([
         getPokemonDetail(name),
         getPokemonSpecies(name).catch(() => null),

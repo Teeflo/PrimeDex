@@ -1,6 +1,6 @@
 'use client';
 
-import { useNeoDexStore } from '@/store/neodex';
+import { usePrimeDexStore } from '@/store/primedex';
 import { ArrowDownAZ, ArrowUpAZ, Hash, ListOrdered, ArrowDown10, ArrowUp10, Scale } from 'lucide-react';
 import {
   Select,
@@ -12,7 +12,7 @@ import {
 import { useTranslation } from '@/lib/i18n';
 
 export default function SortSelector() {
-  const { sortBy, setSortBy } = useNeoDexStore();
+  const { sortBy, setSortBy } = usePrimeDexStore();
   const { t } = useTranslation();
 
   const options = [
