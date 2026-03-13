@@ -1,7 +1,8 @@
 # <p align="center">🎮 PrimeDex</p>
 
 <p align="center">
-  <strong>The Ultimate High-Performance Pokémon Dashboard</strong>
+  <strong>The Ultimate High-Performance Pokémon Dashboard</strong><br>
+  <a href="https://primedex.vercel.app/">primedex.vercel.app</a>
 </p>
 
 <p align="center">
@@ -16,9 +17,9 @@
 
 ## 🌟 Vision
 
-**PrimeDex** isn't just a directory—it's a professional-grade **Gaming Dashboard** designed for competitive trainers and completionists alike. Built with a "Performance-First" mindset, it leverages the latest browser technologies to deliver a buttery-smooth experience with zero compromises on visual fidelity.
+**PrimeDex** is the ultimate high-performance Pokémon dashboard, engineered for trainers who demand speed, precision, and style. By merging a professional-grade **Gaming Interface** with cutting-edge web technologies, PrimeDex delivers a buttery-smooth experience with instant search, deep data analysis, and technical tools that feel as powerful as a Master Ball.
 
-> *"A PrimeDex that feels as powerful as a Master Ball."*
+> *"Performance is not a feature, it's a fundamental right for every trainer."*
 
 ---
 
@@ -56,7 +57,7 @@ The PrimeDex is built on a foundation of strict architectural principles:
 ### Installation
 ```bash
 # 1. Clone & Enter
-git clone https://github.com/user/pokedex.git && cd pokedex
+git clone https://github.com/Teeflo/PrimeDex.git && cd PrimeDex
 
 # 2. Install dependencies
 npm install
