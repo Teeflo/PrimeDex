@@ -12,4 +12,8 @@ export const pokemonKeys = {
   allDetailed: (lang: string) => [...pokemonKeys.all, 'all-detailed', lang] as const,
   allSummary: (lang: string) => [...pokemonKeys.all, 'all-summary', lang] as const,
   localized: (name: string, langId: number) => [...pokemonKeys.all, 'localized', name, langId] as const,
+  tcg: {
+    all: () => ['tcg'] as const,
+    cards: (name: string) => [...pokemonKeys.tcg.all(), 'cards', name] as const,
+  }
 };

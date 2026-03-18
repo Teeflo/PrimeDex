@@ -42,6 +42,9 @@ const PokemonBuilds = dynamic(() => import('@/components/pokemon/PokemonBuilds')
 const HeightComparison = dynamic(() => import('@/components/pokemon/HeightComparison').then(m => m.HeightComparison), {
   loading: () => <div className="h-40 animate-pulse bg-white/5 rounded-3xl" />
 });
+const PokemonCards = dynamic(() => import('@/components/pokemon/PokemonCards').then(m => m.PokemonCards), {
+  loading: () => <div className="h-40 flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary/20" /></div>
+});
 
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
@@ -422,7 +425,7 @@ export default function PokemonDetailPage() {
           className="max-w-4xl mx-auto"
         >
           <Tabs defaultValue="about" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 md:grid-cols-7 mb-8 h-auto md:h-14 rounded-2xl bg-secondary/30 p-1 border border-white/5 gap-1">
+            <TabsList className="grid w-full grid-cols-4 md:grid-cols-8 mb-8 h-auto md:h-14 rounded-2xl bg-secondary/30 p-1 border border-white/5 gap-1">
               <TabsTrigger value="about" className="rounded-xl font-bold uppercase tracking-wider text-[9px] md:text-xs py-2 md:py-0">{t('detail.about')}</TabsTrigger>
               <TabsTrigger value="stats" className="rounded-xl font-bold uppercase tracking-wider text-[9px] md:text-xs py-2 md:py-0">{t('detail.stats')}</TabsTrigger>
               <TabsTrigger value="moves" className="rounded-xl font-bold uppercase tracking-wider text-[9px] md:text-xs py-2 md:py-0">{t('detail.moveset')}</TabsTrigger>
@@ -430,6 +433,7 @@ export default function PokemonDetailPage() {
               <TabsTrigger value="locations" className="rounded-xl font-bold uppercase tracking-wider text-[9px] md:text-xs py-2 md:py-0">{t('detail.where_to_find')}</TabsTrigger>
               <TabsTrigger value="builds" className="rounded-xl font-bold uppercase tracking-wider text-[9px] md:text-xs py-2 md:py-0">{t('detail.builds')}</TabsTrigger>
               <TabsTrigger value="infos" className="rounded-xl font-bold uppercase tracking-wider text-[9px] md:text-xs py-2 md:py-0">{t('detail.infos')}</TabsTrigger>
+              <TabsTrigger value="cards" className="rounded-xl font-bold uppercase tracking-wider text-[9px] md:text-xs py-2 md:py-0">{t('detail.cards')}</TabsTrigger>
             </TabsList>
             
             {/* About Tab */}
@@ -871,6 +875,11 @@ export default function PokemonDetailPage() {
                   </div>
                 )}
               </div>
+            </TabsContent>
+
+            {/* Cards Tab */}
+            <TabsContent value="cards" className="space-y-6">
+              <PokemonCards name={pokemon.name} localizedName={displayName} lang={resolvedLang} />
             </TabsContent>
           </Tabs>
         </m.div>
