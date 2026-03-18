@@ -10,7 +10,9 @@ interface PokemonCard3DProps {
   rarity?: string;
   supertype?: string;
   subtypes?: string;
-  types?: string;
+  types?: string | string[];
+  suffix?: string;
+  stage?: string;
   number?: string;
   set?: string;
   className?: string;
@@ -32,6 +34,8 @@ export const PokemonCard3D: React.FC<PokemonCard3DProps> = ({
   supertype = 'pokémon',
   subtypes = 'basic',
   types = '',
+  suffix = '',
+  stage = '',
   number = '',
   set = '',
   className,
@@ -57,7 +61,7 @@ export const PokemonCard3D: React.FC<PokemonCard3DProps> = ({
 
   const rafId = useRef<number | null>(null);
 
-  const updateStyles = useCallback(() => {
+  const updateStyles = useCallback(function updateStyles() {
     if (!cardRef.current) return;
     
     // Smooth dampening logic
@@ -111,8 +115,8 @@ export const PokemonCard3D: React.FC<PokemonCard3DProps> = ({
     setInteracting(true);
     if (!cardRef.current) return;
     
-    let clientX = e.clientX;
-    let clientY = e.clientY;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
 
     const rect = cardRef.current.getBoundingClientRect();
     const absolute = { x: clientX - rect.left, y: clientY - rect.top };
@@ -167,20 +171,112 @@ export const PokemonCard3D: React.FC<PokemonCard3DProps> = ({
     '--seedx': seeds.seedx,
     '--seedy': seeds.seedy,
     '--cosmosbg': `${seeds.cx}px ${seeds.cy}px`,
-  } as React.CSSProperties;
+    '--pointer-x': `${current.current.gx}%`,
+    '--pointer-y': `${current.current.gy}%`,
+    '--pointer-from-center': `${clamp( Math.sqrt( (current.current.gy - 50) ** 2 + (current.current.gx - 50) ** 2 ) / 50, 0, 1)}`,
+    '--pointer-from-top': `${current.current.gy / 100}`,
+    '--pointer-from-left': `${current.current.gx / 100}`,
+    '--card-opacity': `${current.current.go}`,
+    '--rotate-x': `${current.current.rx}deg`,
+    '--rotate-y': `${current.current.ry}deg`,
+    '--background-x': `${current.current.bx}%`,
+    '--background-y': `${current.current.by}%`,
+  } as React.CSSProperties & Record<string, string | number>;
 
   const isTrainerGallery = !!number.match(/^[tg]g/i);
 
-  // Important mappings for CSS targeting
-  const mappedRarity = rarity.toLowerCase().includes('holo') ? rarity : 'rare holo'; // Fallback to holo for nice glow
-  const mappedSupertype = supertype.toLowerCase();
-  const mappedSubtypes = subtypes.toLowerCase().replace(/,/g, ' ');
+  // Derive subtypes for CSS data-subtypes
+  let derivedSubtypes = (subtypes || "").toLowerCase();
+  if (suffix) {
+    const s = suffix.toLowerCase();
+    if (s === "v" || s === "vmax" || s === "vstar" || s === "ex") {
+      derivedSubtypes += ` ${s}`;
+    }
+  }
+  if (stage) {
+    derivedSubtypes += ` ${stage.toLowerCase()}`;
+  }
+  if (rarity?.toLowerCase().includes("radiant")) {
+    derivedSubtypes += " radiant";
+  }
+  
+  const mappedSubtypes = derivedSubtypes.trim().replace(/,/g, " ");
+
+  // Comprehensive Rarity Mapping to CSS data-rarity
+  let mappedRarity = (rarity || "rare holo").toLowerCase();
+  const supertypeLower = supertype.toLowerCase();
+
+  // 1. Shiny Variants
+  if (mappedRarity.includes("shiny rare v") || mappedRarity === "shiny ultra rare") {
+    mappedRarity = "rare shiny v";
+  } else if (mappedRarity.includes("shiny rare vmax")) {
+    mappedRarity = "rare shiny vmax";
+  } else if (mappedRarity.includes("shiny")) {
+    mappedRarity = "rare shiny";
+  } 
+  // 2. V / VMAX / VSTAR Variants
+  else if (mappedRarity === "holo rare v" || suffix?.toLowerCase() === "v") {
+    // Check if it's a full art V
+    if (mappedRarity.includes("ultra") || mappedRarity.includes("illustration")) {
+      mappedRarity = "rare ultra";
+    } else {
+      mappedRarity = "rare holo v";
+    }
+  } else if (mappedRarity === "holo rare vmax" || suffix?.toLowerCase() === "vmax") {
+    mappedRarity = "rare holo vmax";
+  } else if (mappedRarity === "holo rare vstar" || suffix?.toLowerCase() === "vstar") {
+    mappedRarity = "rare holo vstar";
+  }
+  // 3. Secret / Hyper / Rainbow
+  else if (mappedRarity === "hyper rare" || mappedRarity.includes("rainbow") || mappedRarity === "crown") {
+    mappedRarity = "rare rainbow";
+  } else if (mappedRarity === "secret rare") {
+    mappedRarity = "rare secret";
+  }
+  // 4. Ultra / Full Art / Illustration
+  else if (
+    mappedRarity === "ultra rare" || 
+    mappedRarity === "double rare" || 
+    mappedRarity.includes("illustration rare")
+  ) {
+    mappedRarity = "rare ultra";
+  }
+  // 5. Amazing Rare
+  else if (mappedRarity === "amazing rare") {
+    mappedRarity = "amazing rare";
+  }
+  // 5b. Radiant Rare
+  else if (mappedRarity === "radiant rare" || mappedRarity.includes("radiant")) {
+    mappedRarity = "radiant rare";
+  }
+  // 6. Full Art Trainer (from TCGdex "Full Art Trainer" rarity)
+  else if (mappedRarity === "full art trainer") {
+    mappedRarity = "rare ultra"; // trainer-full-art.css targets .card[data-rarity="rare ultra"][data-supertype="trainer"]
+  }
+  // 7. Standard Holos
+  else if (mappedRarity.includes("holo") || mappedRarity === "rare") {
+    mappedRarity = "rare holo";
+  }
+  // 8. Common / Uncommon
+  else if (mappedRarity === "common" || mappedRarity === "uncommon" || mappedRarity === "none") {
+    mappedRarity = "common";
+  } else {
+    mappedRarity = "rare holo"; // Fallback
+  }
+
+  let mappedSupertype = supertypeLower;
+  if (mappedSupertype === "pokemon") {
+    mappedSupertype = "pokémon";
+  }
+
+  const mappedTypes = Array.isArray(types) ? types.join(' ').toLowerCase() : (types || '').toLowerCase();
 
   return (
     <div
       ref={cardRef}
       className={cn(
         'card interactive',
+        mappedTypes,
         active && 'active',
         interacting && 'interacting',
         loading && 'loading',

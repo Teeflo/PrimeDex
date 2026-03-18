@@ -186,6 +186,14 @@ button.card__rotator {
     0 0 50px -20px var(--card-glow)
 }
 
+/* Remove the glow frame when used in a fullscreen modal */
+.card.card--no-frame .card__rotator,
+.card.card--no-frame .card__rotator:focus,
+.card.card--no-frame.active .card__rotator,
+.card.card--no-frame.active .card__rotator:focus {
+  box-shadow: none !important;
+}
+
 .card__rotator * {
   width: 100%;
   display: grid;
@@ -335,17 +343,17 @@ Shine & Glare Effects
 .card[data-rarity="rare holo"] .card__glare:after,
 .card[data-rarity="rare holo cosmos"] .card__glare:after,
 .card[data-rarity$="reverse holo"] .card__glare:after {
-  clip-path: var(--clip);
+  clip-path: var(--clip-borders);
 }
 
 .card[data-rarity="rare holo"][data-subtypes^="stage"] .card__glare:after,
 .card[data-rarity="rare holo cosmos"][data-subtypes^="stage"] .card__glare:after,
 .card[data-rarity$="reverse holo"][data-subtypes^="stage"] .card__glare:after {
-  clip-path: var(--clip-stage);
+  clip-path: var(--clip-borders);
 }
 
 .card[data-rarity="rare holo"][data-supertype="trainer"] .card__glare:after,
 .card[data-rarity="rare holo cosmos"][data-supertype="trainer"] .card__glare:after,
 .card[data-rarity$="reverse holo"][data-supertype="trainer"] .card__glare:after {
-  clip-path: var(--clip-trainer);
+  clip-path: var(--clip-borders);
 }

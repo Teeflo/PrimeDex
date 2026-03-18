@@ -2,18 +2,28 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'PrimeDex Dashboard',
+    name: 'PrimeDex — The Ultimate Online Pokédex',
     short_name: 'PrimeDex',
-    description: 'A high-performance Gaming Dashboard for Pokémon tracking and team building.',
+    description: 'The most complete Pokédex online. Browse all 1025 Pokémon with stats, evolutions, team builder, competitive builds, type matchups, and interactive quiz.',
     start_url: '/',
+    scope: '/',
     display: 'standalone',
-    background_color: '#000000',
-    theme_color: '#000000',
+    orientation: 'portrait-primary',
+    background_color: '#1a1a2e',
+    theme_color: '#e94560',
+    lang: 'en',
+    categories: ['games', 'entertainment', 'education'],
     icons: [
       {
         src: '/icon.svg',
         sizes: 'any',
         type: 'image/svg+xml',
+      },
+      {
+        src: '/icon.svg',
+        sizes: '192x192',
+        type: 'image/svg+xml',
+        purpose: 'maskable',
       },
     ],
   };

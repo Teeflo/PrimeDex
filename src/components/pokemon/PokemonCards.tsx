@@ -5,16 +5,18 @@ import { useQuery } from '@tanstack/react-query';
 import { getPokemonCards } from '@/lib/api';
 import { TCGCard } from '@/lib/api/tcg';
 import { pokemonKeys } from '@/lib/api/keys';
-import { Loader2, ExternalLink, X } from 'lucide-react';
+import { Loader2, X } from 'lucide-react';
 import { m, AnimatePresence, Variants } from 'framer-motion';
-import Image from 'next/image';
 import { useTranslation } from '@/lib/i18n';
+import { PokemonCard3D } from './PokemonCard3D';
 
 interface PokemonCardsProps {
   name: string;
   localizedName?: string;
   lang?: string;
 }
+
+// rarity and category are now provided by TCGCard directly from TCGdex detail API
 
 export const PokemonCards: React.FC<PokemonCardsProps> = ({ name, localizedName, lang }) => {
   const { t } = useTranslation();
@@ -81,32 +83,56 @@ export const PokemonCards: React.FC<PokemonCardsProps> = ({ name, localizedName,
         animate="show"
         className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"
       >
+        <div className="hidden">
+          {/* eslint-disable @next/next/no-css-tags */}
+          {/* Preload required styles via React 19 <link> hoisting feature */}
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/base.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/basic.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/reverse-holo.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/regular-holo.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/cosmos-holo.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/amazing-rare.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/radiant-holo.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/v-regular.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/v-full-art.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/v-max.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/v-star.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/trainer-full-art.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/rainbow-holo.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/rainbow-alt.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/secret-rare.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/trainer-gallery-holo.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/trainer-gallery-v-regular.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/trainer-gallery-v-max.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/trainer-gallery-secret-rare.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/shiny-rare.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/shiny-v.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/shiny-vmax.css" precedence="default" />
+          <link rel="stylesheet" href="/pokemon-cards/css/cards/swsh-pikachu.css" precedence="default" />
+        </div>
         {cards.map((card) => (
-          <m.div key={card.id} variants={itemVariants} className="group relative perspective-1000">
-            <button 
+          <m.div key={card.id} variants={itemVariants} className="group relative z-10 perspective-1000 w-full flex items-center justify-center">
+            <PokemonCard3D
+              name={card.name}
+              image={`${card.image}/high.webp`}
+              number={card.localId}
+              set={card.id.split('-')[0]}
+              rarity={card.rarity || 'rare holo'}
+              supertype={card.category || 'pokémon'}
+              suffix={card.suffix}
+              stage={card.stage}
+              types={card.types}
+              className="w-[100%] max-w-[280px]"
               onClick={() => setSelectedCard(card)}
-              className="block w-full relative transform-style-3d group-hover:scale-105 group-hover:-translate-y-2 transition-all duration-300 ease-out text-left"
-              aria-label={t('detail.view_card_aria', { name: card.name, defaultValue: `View ${card.name} card` })}
-            >
-              <div className="relative w-full aspect-[63/88] rounded-xl overflow-hidden shadow-lg group-hover:shadow-[0_20px_40px_-5px_rgba(0,0,0,0.4)] transition-shadow duration-300">
-                <div className="absolute inset-0 bg-transparent group-hover:bg-white/10 z-10 transition-colors duration-300 pointer-events-none mix-blend-overlay" />
-                <Image
-                  src={`${card.image}/high.webp`}
-                  alt={card.name}
-                  fill
-                  sizes="(min-width: 1024px) 20vw, (min-width: 768px) 25vw, (min-width: 640px) 33vw, 50vw"
-                  className="object-cover"
-                  loading="lazy"
-                />
+            />
+            
+            <div className="absolute -bottom-2 -left-2 -right-2 bg-background/80 backdrop-blur-md rounded-xl p-3 border border-white/10 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 z-[60] shadow-xl pointer-events-none">
+              <p className="text-xs font-black truncate text-foreground/90">{card.name}</p>
+              <div className="flex items-center justify-between mt-1">
+                <p className="text-[9px] font-bold text-foreground/60 truncate uppercase tracking-widest">#{card.localId} ({card.id.split('-')[0].toUpperCase()})</p>
               </div>
-              
-              <div className="absolute -bottom-2 -left-2 -right-2 bg-background/80 backdrop-blur-md rounded-xl p-3 border border-white/10 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300 z-20 shadow-xl pointer-events-none">
-                <p className="text-xs font-black truncate text-foreground/90">{card.name}</p>
-                <div className="flex items-center justify-between mt-1">
-                  <p className="text-[9px] font-bold text-foreground/60 truncate uppercase tracking-widest">#{card.localId} ({card.id.split('-')[0].toUpperCase()})</p>
-                </div>
-              </div>
-            </button>
+            </div>
           </m.div>
         ))}
       </m.div>
@@ -135,14 +161,18 @@ export const PokemonCards: React.FC<PokemonCardsProps> = ({ name, localizedName,
                 <X className="w-6 h-6" />
               </button>
               
-              <Image
-                src={`${selectedCard.image}/high.webp`}
-                alt={selectedCard.name}
-                width={733}
-                height={1024}
-                className="w-auto h-auto max-h-[65vh] md:max-h-[75vh] max-w-[85vw] rounded-xl sm:rounded-2xl md:rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] object-contain"
-                quality={100}
-                priority
+              <PokemonCard3D
+                name={selectedCard.name}
+                image={`${selectedCard.image}/high.webp`}
+                number={selectedCard.localId}
+                set={selectedCard.id.split('-')[0]}
+                rarity={selectedCard.rarity || 'rare holo'}
+                supertype={selectedCard.category || 'pokémon'}
+                suffix={selectedCard.suffix}
+                stage={selectedCard.stage}
+                types={selectedCard.types}
+                className="w-auto h-auto max-h-[65vh] md:max-h-[75vh] max-w-[85vw] card--no-frame"
+                active={true}
               />
               
               <div className="mt-4 text-center">

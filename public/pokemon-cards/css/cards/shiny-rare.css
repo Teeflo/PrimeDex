@@ -17,10 +17,10 @@
 */
 
 .card[data-rarity="rare shiny"] .card__shine {
-  clip-path: var(--clip);
+  clip-path: var(--clip-borders);
 }
 .card[data-rarity="rare shiny"][data-subtypes^="stage"] .card__shine {
-  clip-path: var(--clip-stage);
+  clip-path: var(--clip-borders);
 }
 
 .card[data-rarity="rare shiny"] .card__shine,

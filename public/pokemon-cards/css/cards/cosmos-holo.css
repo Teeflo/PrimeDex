@@ -6,11 +6,11 @@
 
 .card[data-rarity="rare holo cosmos"][data-subtypes^="stage"] .card__shine,
 .card[data-rarity="rare holo cosmos"][data-subtypes^="stage"] .card__glare:after {
-  clip-path: var(--clip-stage);
+  clip-path: var(--clip-borders);
 }
 .card[data-rarity="rare holo cosmos"][data-subtypes^="supporter"] .card__shine,
 .card[data-rarity="rare holo cosmos"][data-subtypes^="supporter"] .card__glare:after {
-  clip-path: var(--clip-trainer);
+  clip-path: var(--clip-borders);
 }
 
 
@@ -28,7 +28,7 @@
 
   --space: 4%;
 
-  clip-path: var(--clip);
+  clip-path: var(--clip-borders);
 
   background-image: 
     url("/pokemon-cards/img/cosmos-bottom.png"), 

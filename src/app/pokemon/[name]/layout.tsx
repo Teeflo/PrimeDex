@@ -29,15 +29,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title,
         description,
         url: `/pokemon/${name}`,
-        images: [{ url: artwork || '' }],
-        type: 'website',
+        images: [{ url: artwork || '', width: 475, height: 475, alt: `${displayName} official artwork` }],
+        type: 'article',
       },
       twitter: {
         card: 'summary_large_image',
         title,
         description,
         images: [artwork || ''],
-      }
+      },
+      keywords: [
+        displayName.toLowerCase(),
+        `${displayName.toLowerCase()} stats`,
+        `${displayName.toLowerCase()} evolution`,
+        `${displayName.toLowerCase()} moveset`,
+        `${displayName.toLowerCase()} weakness`,
+        `${displayName.toLowerCase()} builds`,
+        ...pokemon.types.map((typeItem: { type: { name: string } }) => `${typeItem.type.name} type pokemon`),
+        'pokemon', 'pokedex',
+      ],
     };
   } catch {
     return {
@@ -54,27 +64,69 @@ export default async function PokemonLayout({
   params: Promise<{ name: string }>;
 }) {
   const { name } = await params;
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://primedex.vercel.app';
   let jsonLd = null;
+  let breadcrumbJsonLd = null;
 
   try {
     const pokemon = await getPokemonDetail(name);
     const displayName = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
     const imageUrl = pokemon.sprites.other['official-artwork'].front_default || pokemon.sprites.front_default;
+    const totalStats = pokemon.stats.reduce((sum: number, s: { base_stat: number }) => sum + s.base_stat, 0);
+    const typesArr = pokemon.types.map((typeItem: { type: { name: string } }) => typeItem.type.name);
 
     jsonLd = {
       '@context': 'https://schema.org',
-      '@type': 'Dataset',
-      name: `${displayName} Pokémon Data`,
-      description: `Comprehensive data including stats, abilities, and moves for ${displayName}.`,
-      url: `https://primedex.vercel.app/pokemon/${name}`,
-      creator: {
+      '@type': 'Article',
+      name: `${displayName} — Complete Pokémon Guide`,
+      headline: `${displayName} — Stats, Evolutions, Moves & Builds`,
+      description: `Comprehensive data for ${displayName}: base stat total of ${totalStats}, ${typesArr.join('/')} type. Full evolution chain, competitive builds, moveset analysis, abilities, and TCG cards.`,
+      url: `${baseUrl}/pokemon/${name}`,
+      image: imageUrl,
+      author: {
         '@type': 'Organization',
         name: 'PrimeDex',
+        url: baseUrl,
       },
-      image: imageUrl,
-      keywords: `Pokemon, ${displayName}, ${pokemon.types.map((t: any) => t.type.name).join(', ')}`,
+      publisher: {
+        '@type': 'Organization',
+        name: 'PrimeDex',
+        url: baseUrl,
+      },
+      keywords: `${displayName}, Pokemon, ${typesArr.join(', ')}, Pokedex, stats, evolution, moveset, competitive builds`,
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': `${baseUrl}/pokemon/${name}`,
+      },
     };
-  } catch (e) {}
+
+    breadcrumbJsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'PrimeDex',
+          item: baseUrl,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Pokédex',
+          item: baseUrl,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: displayName,
+          item: `${baseUrl}/pokemon/${name}`,
+        },
+      ],
+    };
+  } catch {
+    // Silently fail for JSON-LD generation
+  }
 
   return (
     <>
@@ -82,6 +134,12 @@ export default async function PokemonLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
+      {breadcrumbJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
         />
       )}
       {children}

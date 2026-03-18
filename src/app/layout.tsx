@@ -23,10 +23,17 @@ const bodyFont = Manrope({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://primedex.vercel.app"),
-  title: t("meta.title"),
+  title: {
+    default: t("meta.title"),
+    template: "%s | PrimeDex",
+  },
   description: t("meta.description"),
   keywords: t("meta.keywords", { returnObjects: true }) as unknown as string[],
-  authors: [{ name: t("meta.author") }],
+  authors: [{ name: t("meta.author"), url: "https://primedex.vercel.app" }],
+  creator: "PrimeDex",
+  publisher: "PrimeDex",
+  applicationName: "PrimeDex",
+  category: "games",
   alternates: {
     canonical: "/",
     languages: {
@@ -37,12 +44,22 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
   },
   openGraph: {
     title: t("meta.og_title"),
     description: t("meta.og_description"),
     type: "website",
     siteName: t("meta.site_name"),
+    url: "/",
+    locale: "en_US",
+    alternateLocale: ["fr_FR"],
   },
   twitter: {
     card: "summary_large_image",
@@ -52,7 +69,10 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
     apple: "/icon.svg",
-  }
+  },
+  other: {
+    "google-site-verification": process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION || "",
+  },
 };
 
 export default function RootLayout({

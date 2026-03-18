@@ -131,7 +131,14 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
   const teamFull = mounted && team.length >= 6;
   const compareFull = mounted && compareList.length >= 3;
 
-  const types = pokemon.types || (pokemon as any).pokemon_v2_pokemontypes?.map((t: any) => ({ type: { name: t.pokemon_v2_type.name } })) || [];
+  const typesRaw = pokemon.types || (pokemon as any).pokemon_v2_pokemontypes || [];
+  const types = typesRaw.map((t: any) => {
+    if (!t) return null;
+    if (typeof t === 'string') return { type: { name: t } };
+    if (t.type?.name) return t; // Standard REST API structure
+    if (t.pokemon_v2_type?.name) return { type: { name: t.pokemon_v2_type.name } }; // Raw GraphQL structure
+    return null;
+  }).filter(Boolean);
   const mainType = types[0]?.type?.name || 'normal';
   const color = TYPE_COLORS[mainType] || '#A8A77A';
 
@@ -157,15 +164,15 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
 
   const getLocalizedName = () => {
     if (species?.names?.length) {
-      const entry = species.names.find(n => n.language.name === resolvedLang) || species.names.find(n => n.language.name === 'en');
-      if (entry) return entry.name;
+      const entry = species.names.find(n => n?.language?.name === resolvedLang) || species.names.find(n => n?.language?.name === 'en');
+      if (entry?.name) return entry.name;
     }
     const gqlSpeciesData = pokemon as any;
     if (gqlSpeciesData.localizedNames?.length) {
-      const entry = gqlSpeciesData.localizedNames.find((n: any) => n.language === resolvedLang) || gqlSpeciesData.localizedNames.find((n: any) => n.language === 'en');
-      if (entry) return entry.name;
+      const entry = gqlSpeciesData.localizedNames.find((n: any) => n?.language === resolvedLang) || gqlSpeciesData.localizedNames.find((n: any) => n?.language === 'en');
+      if (entry?.name) return entry.name;
     }
-    return pokemon.name!;
+    return pokemon.name || name;
   };
 
   const displayName = getLocalizedName();
@@ -238,11 +245,15 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
         <div className="mt-auto w-full text-center z-10 pt-6">
           <h3 className="text-2xl font-black text-foreground capitalize mb-4 tracking-tighter">{displayName}</h3>
           <div className="flex justify-center gap-2 flex-wrap mb-2">
-            {types.map((typeItem: any) => (
-              <span key={typeItem.type.name} className="glass-tag" style={{ backgroundColor: `${TYPE_COLORS[typeItem.type.name]}cc`, borderColor: TYPE_COLORS[typeItem.type.name] }}>
-                {t(`types.${typeItem.type.name}`)}
-              </span>
-            ))}
+            {types.map((typeItem: any, i: number) => {
+              const typeName = typeItem?.type?.name;
+              if (!typeName) return null;
+              return (
+                <span key={`${typeName}-${i}`} className="glass-tag" style={{ backgroundColor: `${TYPE_COLORS[typeName] || '#A8A77A'}cc`, borderColor: TYPE_COLORS[typeName] || '#A8A77A' }}>
+                  {t(`types.${typeName}`)}
+                </span>
+              );
+            })}
           </div>
         </div>
       </m.div>

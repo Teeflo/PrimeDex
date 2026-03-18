@@ -6,13 +6,13 @@
 
 .card[data-rarity="rare holo"][data-subtypes^="stage"] .card__shine,
 .card[data-rarity="rare holo"][data-subtypes^="stage"] .card__glare:after {
-  clip-path: var(--clip-stage);
+  clip-path: var(--clip-borders);
 }
 .card[data-rarity="rare holo"][data-subtypes^="supporter"] .card__shine,
 .card[data-rarity="rare holo"][data-subtypes^="supporter"] .card__glare:after,
 .card[data-rarity="rare holo"][data-subtypes^="item"] .card__shine,
 .card[data-rarity="rare holo"][data-subtypes^="item"] .card__glare:after {
-  clip-path: var(--clip-trainer);
+  clip-path: var(--clip-borders);
 }
 
 
@@ -36,7 +36,7 @@
   --bar-color: hsla(0, 0%, 70%, 1);
   --bar-bg: hsla(0, 0%, 0%, 1);
 
-  clip-path: var(--clip);
+  clip-path: var(--clip-borders);
 
   background-image: 
     repeating-linear-gradient( 110deg, 

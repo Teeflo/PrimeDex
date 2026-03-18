@@ -4,6 +4,20 @@ import { t } from '@/lib/server-i18n';
 export const metadata: Metadata = {
   title: t('meta.quiz_title'),
   description: t('meta.quiz_description'),
+  alternates: {
+    canonical: '/quiz',
+  },
+  openGraph: {
+    title: t('meta.quiz_title'),
+    description: t('meta.quiz_description'),
+    url: '/quiz',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: t('meta.quiz_title'),
+    description: t('meta.quiz_description'),
+  },
 };
 
 export default function QuizLayout({
@@ -11,5 +25,24 @@ export default function QuizLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebApplication',
+            name: "Who's That Pokémon? — PrimeDex Quiz",
+            applicationCategory: 'GameApplication',
+            operatingSystem: 'All',
+            description: 'Test your Pokémon knowledge with classic, silhouette, and stats quiz modes.',
+            url: 'https://primedex.vercel.app/quiz',
+            offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+          }),
+        }}
+      />
+      {children}
+    </>
+  );
 }

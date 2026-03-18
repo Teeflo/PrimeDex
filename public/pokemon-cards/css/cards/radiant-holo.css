@@ -9,7 +9,7 @@
 }
 
 .card[data-rarity="radiant rare"] .card__shine:after {
-  clip-path: var(--clip);
+  clip-path: var(--clip-borders);
 }
 
 
