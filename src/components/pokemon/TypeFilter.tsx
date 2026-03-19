@@ -16,10 +16,10 @@ export default function TypeFilter() {
     <m.div 
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.2, duration: 0.5 }}
+      transition={{ delay: 0.2, duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
       className="w-full overflow-x-auto pb-8 pt-4 scrollbar-hide"
     >
-      <div className="flex flex-nowrap lg:flex-wrap gap-3 justify-start lg:justify-center px-4 min-w-max lg:min-w-0 mx-auto max-w-7xl">
+      <div className="flex flex-nowrap lg:flex-wrap gap-2 justify-start lg:justify-center px-4 min-w-max lg:min-w-0 mx-auto max-w-7xl">
         <AnimatePresence>
           {selectedTypes.length > 0 && (
             <m.button
@@ -27,11 +27,11 @@ export default function TypeFilter() {
               animate={{ scale: 1, opacity: 1, width: 'auto' }}
               exit={{ scale: 0.8, opacity: 0, width: 0 }}
               onClick={() => setSelectedTypes([])}
-              className="flex items-center gap-1 glass-btn px-4 py-2.5 text-sm text-foreground/80 hover:text-destructive whitespace-nowrap overflow-hidden"
+              className="flex items-center gap-1.5 px-4 py-2.5 text-xs font-bold text-foreground/70 bg-destructive/10 border border-destructive/20 rounded-full hover:bg-destructive/20 hover:text-destructive transition-all duration-300 whitespace-nowrap overflow-hidden backdrop-blur-xl"
               aria-label={t('filters.clear_types', { count: selectedTypes.length })}
             >
-              <X className="w-4 h-4" />
-              <span className="font-semibold">{t('filters.clear_types', { count: selectedTypes.length })}</span>
+              <X className="w-3.5 h-3.5" />
+              <span className="uppercase tracking-wider">{t('filters.clear_types', { count: selectedTypes.length })}</span>
             </m.button>
           )}
         </AnimatePresence>
@@ -42,40 +42,49 @@ export default function TypeFilter() {
           const label = t(`types.${type}`);
           
           return (
-            <button
+            <m.button
               key={type}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => toggleType(type)}
               className={cn(
-                "relative px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 overflow-hidden group",
+                "relative px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-wider transition-all duration-400 overflow-hidden group border",
                 isActive 
-                  ? "text-white shadow-lg scale-105"
-                  : "bg-secondary/40 backdrop-blur-md text-foreground/70 hover:text-foreground border border-white/10 hover:border-white/30"
+                  ? "text-white border-transparent" 
+                  : "bg-white/[0.03] backdrop-blur-xl text-foreground/50 hover:text-foreground/80 border-white/[0.06] hover:border-white/[0.12]"
               )}
               style={isActive ? {
                 backgroundColor: color,
-                boxShadow: `0 8px 20px -6px ${color}`,
+                boxShadow: `0 4px 20px -4px ${color}80, inset 0 1px 0 rgba(255,255,255,0.2)`,
               } : {}}
             >
+              {/* Hover color preview */}
               {!isActive && (
                 <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-15 transition-opacity duration-400 rounded-full"
                   style={{ backgroundColor: color }}
                 />
               )}
+              
+              {/* Inner glow for active */}
+              {isActive && (
+                <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent rounded-full" />
+              )}
+              
               <span className="relative z-10 flex items-center gap-2">
                 {isActive && (
-                  <m.span 
-                    layoutId="activeTypeIndicator"
-                    className="w-2 h-2 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]" 
+                  <m.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="w-1.5 h-1.5 rounded-full bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]" 
                   />
                 )}
                 {label}
               </span>
-            </button>
+            </m.button>
           );
         })}
       </div>
     </m.div>
   );
 }
-

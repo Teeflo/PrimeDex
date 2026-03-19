@@ -1,7 +1,7 @@
 'use client';
 
 import { usePrimeDexStore } from '@/store/primedex';
-import { Search, X } from 'lucide-react';
+import { Search, X, Command } from 'lucide-react';
 import { m, AnimatePresence } from 'framer-motion';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Input } from '@/components/ui/input';
@@ -14,6 +14,7 @@ export default function SearchBar() {
   const { searchTerm, setSearchTerm, language, systemLanguage } = usePrimeDexStore();
   const [localSearch, setLocalSearch] = useState(searchTerm);
   const [mounted, setMounted] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -32,12 +33,10 @@ export default function SearchBar() {
     setMounted(true);
   }, []);
 
-  // Update local search when store search changes (e.g. clear filters)
   useEffect(() => {
     setLocalSearch(searchTerm);
   }, [searchTerm]);
 
-  // Debounce search term update to the store
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearchTerm(localSearch);
@@ -60,31 +59,45 @@ export default function SearchBar() {
     <m.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.1, duration: 0.5 }}
+      transition={{ delay: 0.1, duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
       className="relative flex items-center w-full max-w-2xl mx-auto my-8 px-4 group"
     >
-      <div className="absolute left-8 pointer-events-none text-foreground/40 group-focus-within:text-primary transition-colors z-10">
-        <Search className="w-5 h-5" />
+      {/* Glow effect behind search bar */}
+      <div className={`absolute inset-0 -m-2 rounded-[2rem] transition-all duration-700 ${isFocused ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-purple-500/10 to-primary/20 rounded-[2rem] blur-2xl" />
+      </div>
+
+      {/* Search icon */}
+      <div className="absolute left-8 pointer-events-none z-10 transition-colors duration-300">
+        <Search className={`w-5 h-5 transition-colors duration-300 ${isFocused ? 'text-primary' : 'text-foreground/30'}`} />
       </div>
       
       <div className="w-full relative">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-primary/20 rounded-full blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
         <Input
           ref={inputRef}
           type="text"
           placeholder={t('search.placeholder')}
           value={mounted ? localSearch : ''}
-          onFocus={prefetchIndex}
+          onFocus={() => { setIsFocused(true); prefetchIndex(); }}
+          onBlur={() => setIsFocused(false)}
           onChange={(e) => {
             setLocalSearch(e.target.value);
             prefetchIndex();
           }}
-          className="w-full pl-12 pr-12 py-7 rounded-full bg-secondary/30 backdrop-blur-xl border border-white/20 dark:border-white/10 text-foreground placeholder:text-foreground/40 text-lg font-medium shadow-[0_8px_32px_rgba(0,0,0,0.08)] transition-all focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:border-primary/50"
+          className="w-full pl-12 pr-20 py-7 rounded-full bg-white/[0.04] dark:bg-white/[0.03] backdrop-blur-2xl border border-white/[0.08] dark:border-white/[0.06] text-foreground placeholder:text-foreground/30 text-lg font-medium shadow-[0_4px_24px_rgba(0,0,0,0.06)] transition-all duration-500 focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:border-primary/30 focus-visible:shadow-[0_8px_40px_rgba(227,53,13,0.1)] focus-visible:bg-white/[0.06]"
           aria-label={t('search.placeholder')}
           id="pokemon-search"
         />
+
+        {/* Keyboard shortcut badge */}
+        <div className={`absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-1.5 transition-opacity duration-300 pointer-events-none ${localSearch ? 'opacity-0' : 'opacity-100'}`}>
+          <kbd className="hidden sm:flex items-center gap-1 px-2 py-1 rounded-md bg-white/[0.06] border border-white/[0.08] text-[10px] font-bold text-foreground/30 tracking-wide">
+            <Command className="w-3 h-3" /> K
+          </kbd>
+        </div>
       </div>
 
+      {/* Clear button */}
       <AnimatePresence>
         {localSearch && (
           <m.button
@@ -95,7 +108,7 @@ export default function SearchBar() {
               setLocalSearch('');
               setSearchTerm('');
             }}
-            className="absolute right-6 p-2 rounded-full text-foreground/40 hover:text-primary hover:bg-primary/10 transition-colors focus:outline-none"
+            className="absolute right-6 p-2 rounded-full text-foreground/30 hover:text-primary hover:bg-primary/10 transition-all duration-300 focus:outline-none z-10"
             aria-label={t('search.clear')}
           >
             <X className="w-5 h-5" />
@@ -105,5 +118,3 @@ export default function SearchBar() {
     </m.div>
   );
 }
-
-

@@ -6,6 +6,7 @@ import { usePrimeDexStore } from '@/store/primedex';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '@/lib/i18n';
 import { LazyMotion, domMax } from 'framer-motion';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const { theme, setSystemLanguage, language, systemLanguage, _hasHydrated } = usePrimeDexStore();
@@ -74,7 +75,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
         <LazyMotion features={domMax} strict>
-          {children}
+          <TooltipProvider>
+            {children}
+          </TooltipProvider>
         </LazyMotion>
       </ThemeProvider>
     </QueryClientProvider>

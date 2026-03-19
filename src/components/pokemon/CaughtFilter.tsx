@@ -17,7 +17,7 @@ export default function CaughtFilter() {
   ];
 
   return (
-    <div className="flex bg-secondary/40 backdrop-blur-md border border-white/10 rounded-full p-1 shadow-sm">
+    <div className="flex bg-white/[0.03] backdrop-blur-xl border border-white/[0.06] rounded-full p-1">
       {modes.map((mode) => (
         <m.button
           key={mode.id}
@@ -25,10 +25,10 @@ export default function CaughtFilter() {
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowCaughtOnly(mode.id)}
           className={cn(
-            "flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-all duration-300",
+            "flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-400",
             showCaughtOnly === mode.id
-              ? "bg-primary text-white shadow-lg shadow-primary/20" 
-              : "text-foreground/40 hover:text-foreground/70"
+              ? "bg-primary text-white shadow-[0_4px_16px_-4px_rgba(227,53,13,0.4)]" 
+              : "text-foreground/35 hover:text-foreground/60"
           )}
         >
           {mode.id === 'caught' && <PokeballIcon className="w-3 h-3" />}
@@ -74,4 +74,3 @@ function PokeballIcon(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-

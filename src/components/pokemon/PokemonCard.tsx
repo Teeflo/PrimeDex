@@ -24,22 +24,22 @@ interface PokemonCardProps {
 
 export function PokemonCardSkeleton() {
   return (
-    <div className="py-4 px-2 h-[26rem]">
-      <div className="glass-panel h-full p-6 flex flex-col items-center rounded-[2rem] bg-white/5 animate-pulse">
+    <div className="py-4 px-2 h-[28rem]">
+      <div className="glass-panel h-full p-6 flex flex-col items-center rounded-[2rem] animate-pulse">
         <div className="flex justify-between items-center w-full mb-4">
-          <Skeleton className="h-4 w-12 bg-white/10" />
+          <Skeleton className="h-5 w-14 bg-white/[0.06]" />
           <div className="flex gap-2">
-            <Skeleton className="h-9 w-9 rounded-full bg-white/10" />
-            <Skeleton className="h-9 w-9 rounded-full bg-white/10" />
-            <Skeleton className="h-9 w-9 rounded-full bg-white/10" />
+            <Skeleton className="h-9 w-9 rounded-full bg-white/[0.06]" />
+            <Skeleton className="h-9 w-9 rounded-full bg-white/[0.06]" />
+            <Skeleton className="h-9 w-9 rounded-full bg-white/[0.06]" />
           </div>
         </div>
-        <Skeleton className="w-40 h-40 rounded-full bg-white/10 my-2" />
+        <Skeleton className="w-36 h-36 rounded-full bg-white/[0.06] my-4" />
         <div className="mt-auto w-full flex flex-col items-center gap-4 pt-6">
-          <Skeleton className="h-8 w-32 bg-white/10" />
+          <Skeleton className="h-8 w-32 bg-white/[0.06]" />
           <div className="flex gap-2">
-            <Skeleton className="h-6 w-16 rounded-full bg-white/10" />
-            <Skeleton className="h-6 w-16 rounded-full bg-white/10" />
+            <Skeleton className="h-6 w-16 rounded-full bg-white/[0.06]" />
+            <Skeleton className="h-6 w-16 rounded-full bg-white/[0.06]" />
           </div>
         </div>
       </div>
@@ -56,7 +56,6 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
     setMounted(true);
   }, []);
   
-  // Use atomic selectors to prevent unnecessary re-renders
   const language = usePrimeDexStore(s => s.language);
   const systemLanguage = usePrimeDexStore(s => s.systemLanguage);
   const favorites = usePrimeDexStore(s => s.favorites);
@@ -135,8 +134,8 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
   const types = typesRaw.map((t: any) => {
     if (!t) return null;
     if (typeof t === 'string') return { type: { name: t } };
-    if (t.type?.name) return t; // Standard REST API structure
-    if (t.pokemon_v2_type?.name) return { type: { name: t.pokemon_v2_type.name } }; // Raw GraphQL structure
+    if (t.type?.name) return t;
+    if (t.pokemon_v2_type?.name) return { type: { name: t.pokemon_v2_type.name } };
     return null;
   }).filter(Boolean);
   const mainType = types[0]?.type?.name || 'normal';
@@ -181,17 +180,18 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
   return (
     <Link href={`/pokemon/${name}`} className="block h-full py-4 px-2" onMouseEnter={prefetchDetails}>
       <m.div
-        whileHover={{ scale: 1.03 }}
-        whileTap={{ scale: 0.98 }}
-        transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        className="glass-panel type-glow relative h-full p-6 flex flex-col items-center group overflow-hidden rounded-[2rem]"
-        style={{ '--type-color': `${color}40` } as React.CSSProperties}
+        whileHover={{ scale: 1.03, y: -4 }}
+        whileTap={{ scale: 0.97 }}
+        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        className="glass-panel type-glow holo-border relative h-full p-6 flex flex-col items-center group overflow-hidden rounded-[2rem]"
+        style={{ '--type-color': `${color}50` } as React.CSSProperties}
       >
+        {/* Caught pokeball */}
         <button 
           onClick={handleToggleCaught}
           className={cn(
             "absolute bottom-6 left-6 z-20 transition-all duration-500 hover:scale-110 active:scale-90",
-            caught ? "opacity-100 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" : "opacity-20 grayscale hover:opacity-50"
+            caught ? "opacity-100 drop-shadow-[0_0_12px_rgba(255,255,255,0.4)]" : "opacity-15 grayscale hover:opacity-40"
           )}
           title={caught ? t('card.caught') : t('card.mark_caught')}
           aria-label={caught ? t('card.caught') : t('card.mark_caught')}
@@ -199,51 +199,84 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
           <PokeballIcon className={cn("w-6 h-6", caught ? "text-red-500" : "text-foreground")} />
         </button>
 
-        <div className="absolute -top-20 -right-20 w-48 h-48 rounded-full blur-[60px] opacity-20 group-hover:opacity-40 transition-opacity duration-700" style={{ backgroundColor: color }} />
+        {/* Top ambient glow */}
+        <div 
+          className="absolute -top-24 -right-24 w-56 h-56 rounded-full blur-[80px] opacity-15 group-hover:opacity-35 transition-all duration-1000" 
+          style={{ backgroundColor: color }} 
+        />
         
+        {/* Bottom subtle glow */}
+        <div 
+          className="absolute -bottom-16 -left-16 w-40 h-40 rounded-full blur-[60px] opacity-0 group-hover:opacity-20 transition-all duration-1000" 
+          style={{ backgroundColor: color }} 
+        />
+        
+        {/* ID and Action buttons */}
         <div className="flex justify-between items-center w-full z-10 mb-4">
-          <span className="text-sm font-black text-foreground/50 group-hover:text-foreground/80 transition-colors">{formatId(pokemonId)}</span>
-          <div className="flex items-center gap-2">
+          <span className="text-sm font-black text-foreground/30 group-hover:text-foreground/60 transition-colors duration-300 tracking-tight">{formatId(pokemonId)}</span>
+          <div className="flex items-center gap-1.5">
             <m.button
-              whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}
               onClick={toggleTeam} disabled={!isTeam && teamFull}
-              className={cn("p-2.5 rounded-full backdrop-blur-md transition-all shadow-sm", isTeam ? "bg-green-500/20 text-green-500 hover:bg-green-500/30" : "bg-secondary/40 text-foreground/40 hover:text-foreground/80 hover:bg-secondary/60", !isTeam && teamFull && "opacity-20 cursor-not-allowed")}
+              className={cn(
+                "p-2 rounded-full backdrop-blur-xl transition-all duration-300 border",
+                isTeam 
+                  ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/20 shadow-[0_0_12px_rgba(52,211,153,0.2)]" 
+                  : "bg-white/[0.03] text-foreground/30 border-white/[0.06] hover:text-foreground/70 hover:bg-white/[0.06]",
+                !isTeam && teamFull && "opacity-15 cursor-not-allowed"
+              )}
             >
-              {isTeam ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+              {isTeam ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
             </m.button>
 
             <m.button
-              whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}
               onClick={toggleCompare} disabled={!isComp && compareFull}
-              className={cn("p-2.5 rounded-full backdrop-blur-md transition-all shadow-sm", isComp ? "bg-primary/20 text-primary hover:bg-primary/30" : "bg-secondary/40 text-foreground/40 hover:text-foreground/80 hover:bg-secondary/60", !isComp && compareFull && "opacity-20 cursor-not-allowed")}
+              className={cn(
+                "p-2 rounded-full backdrop-blur-xl transition-all duration-300 border",
+                isComp 
+                  ? "bg-primary/15 text-primary border-primary/20 shadow-[0_0_12px_rgba(227,53,13,0.2)]" 
+                  : "bg-white/[0.03] text-foreground/30 border-white/[0.06] hover:text-foreground/70 hover:bg-white/[0.06]",
+                !isComp && compareFull && "opacity-15 cursor-not-allowed"
+              )}
             >
-              <ArrowLeftRight className={cn("w-4 h-4 transition-transform", isComp && "scale-110")} />
+              <ArrowLeftRight className={cn("w-3.5 h-3.5 transition-transform", isComp && "scale-110")} />
             </m.button>
 
             <m.button
-              whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}
               onClick={toggleFavorite}
-              className={cn("p-2.5 rounded-full backdrop-blur-md transition-all shadow-sm", isFav ? "bg-red-500/20 text-red-500 hover:bg-red-500/30" : "bg-secondary/40 text-foreground/40 hover:text-foreground/80 hover:bg-secondary/60")}
+              className={cn(
+                "p-2 rounded-full backdrop-blur-xl transition-all duration-300 border",
+                isFav 
+                  ? "bg-rose-500/15 text-rose-400 border-rose-500/20 shadow-[0_0_12px_rgba(244,63,94,0.2)]" 
+                  : "bg-white/[0.03] text-foreground/30 border-white/[0.06] hover:text-foreground/70 hover:bg-white/[0.06]"
+              )}
             >
-              <m.div animate={isFav ? { scale: [1, 1.4, 1], transition: { duration: 0.3 } } : {}}>
-                <Heart className={cn("w-4 h-4 transition-transform", isFav && "fill-current scale-110")} />
+              <m.div animate={isFav ? { scale: [1, 1.5, 1], transition: { duration: 0.35 } } : {}}>
+                <Heart className={cn("w-3.5 h-3.5 transition-all", isFav && "fill-current")} />
               </m.div>
             </m.button>
           </div>
         </div>
 
-        <div className="relative w-40 h-40 my-2 z-10 flex items-center justify-center">
-          <div className="absolute inset-0 rounded-full blur-[30px] opacity-20 group-hover:opacity-50 group-hover:scale-125 transition-all duration-700" style={{ backgroundColor: color }} />
+        {/* Pokemon Image */}
+        <div className="relative w-36 h-36 my-4 z-10 flex items-center justify-center">
+          <div 
+            className="absolute inset-0 rounded-full blur-[40px] opacity-20 group-hover:opacity-50 group-hover:scale-130 transition-all duration-1000" 
+            style={{ backgroundColor: color }} 
+          />
           <Image
             src={spriteUrl} alt={displayName} width={160} height={160}
-            className="w-full h-full object-contain drop-shadow-xl transition-transform duration-700 ease-out group-hover:scale-125 group-hover:-translate-y-3 relative z-10"
+            className="w-full h-full object-contain drop-shadow-2xl transition-all duration-700 ease-out group-hover:scale-[1.2] group-hover:-translate-y-4 relative z-10"
             priority={index < 10}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
           />
         </div>
 
+        {/* Name and types */}
         <div className="mt-auto w-full text-center z-10 pt-6">
-          <h3 className="text-2xl font-black text-foreground capitalize mb-4 tracking-tighter">{displayName}</h3>
+          <h3 className="text-xl font-black text-foreground capitalize mb-3 tracking-tight group-hover:text-foreground/90 transition-colors">{displayName}</h3>
           <div className="flex justify-center gap-2 flex-wrap mb-2">
             {types.map((typeItem: any, i: number) => {
               const typeName = typeItem?.type?.name;

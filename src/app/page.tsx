@@ -59,33 +59,56 @@ export default async function Home() {
         <Header />
 
         <main className="container mx-auto px-4 py-8 relative z-10">
-          <section className="text-center mb-12 pt-10">
-            <div className="inline-block mb-6 relative group">
-              <div className="absolute inset-0 bg-primary/30 blur-3xl rounded-full group-hover:bg-primary/50 transition-colors duration-700" />
-              <h1 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-br from-primary to-orange-500 tracking-tighter drop-shadow-sm relative z-10">
-                {t('home.hero_title')}
-              </h1>
+          {/* ── HERO SECTION ── */}
+          <section className="text-center mb-16 pt-14 relative">
+            {/* Decorative orbs */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[200px] bg-primary/15 rounded-full blur-[100px] animate-pulse-glow" />
+              <div className="absolute top-1/3 left-1/3 w-[200px] h-[100px] bg-indigo-500/10 rounded-full blur-[80px] animate-pulse-glow" style={{ animationDelay: '-1.5s' }} />
+              <div className="absolute top-2/3 right-1/4 w-[150px] h-[80px] bg-purple-500/8 rounded-full blur-[60px] animate-pulse-glow" style={{ animationDelay: '-3s' }} />
             </div>
-            <p className="text-foreground/60 mt-2 text-sm md:text-base font-bold tracking-[0.2em] uppercase">
-              {t('home.hero_subtitle')}
-            </p>
 
-            <div className="flex flex-col items-center mt-12 w-full max-w-5xl mx-auto space-y-8">
-              <SearchBar />
-
-              <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 px-4">
-                <div className="flex items-center gap-3">
-                  <FavoriteToggle />
-                  <CaughtFilter />
-                  <AdvancedFiltersWrapper />
-                </div>
-                <div className="h-px flex-1 bg-border/50 hidden md:block" />
-                <SortSelector />
+            <div className="relative z-10">
+              {/* Pill badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.06] backdrop-blur-xl mb-8">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
+                <span className="text-[10px] font-black uppercase tracking-[0.25em] text-foreground/40">
+                  {t('home.hero_subtitle')}
+                </span>
               </div>
 
-              <div className="w-full space-y-4">
-                <RegionFilter />
-                <TypeFilter />
+              {/* Main title */}
+              <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter drop-shadow-sm leading-[0.9] mb-6">
+                <span className="gradient-text-hero">
+                  {t('home.hero_title')}
+                </span>
+              </h1>
+
+              {/* Decorative line */}
+              <div className="flex items-center justify-center gap-4 mb-10">
+                <div className="h-px w-16 bg-gradient-to-r from-transparent to-primary/30" />
+                <div className="w-2 h-2 rounded-full bg-primary/40" />
+                <div className="h-px w-16 bg-gradient-to-l from-transparent to-primary/30" />
+              </div>
+
+              {/* Search and Filters */}
+              <div className="flex flex-col items-center w-full max-w-5xl mx-auto space-y-8">
+                <SearchBar />
+
+                <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 px-4">
+                  <div className="flex items-center gap-2">
+                    <FavoriteToggle />
+                    <CaughtFilter />
+                    <AdvancedFiltersWrapper />
+                  </div>
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent hidden md:block" />
+                  <SortSelector />
+                </div>
+
+                <div className="w-full space-y-3">
+                  <RegionFilter />
+                  <TypeFilter />
+                </div>
               </div>
             </div>
           </section>
@@ -94,12 +117,23 @@ export default async function Home() {
           <RecentlyViewed />
         </main>
 
-        <footer className="py-12 text-center text-xs text-foreground/40 font-semibold border-t border-border mt-20 bg-background/40 backdrop-blur-xl relative z-10">
-          <p>{t('home.footer_copyright', { year: new Date().getFullYear() })}</p>
-          <p className="mt-4 opacity-50">{t('home.footer_data')}</p>
+        {/* ── FOOTER ── */}
+        <footer className="relative z-10 mt-24 border-t border-white/[0.04]">
+          <div className="py-16 text-center">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/20" />
+              <span className="text-lg font-black gradient-text-primary tracking-tighter">PrimeDex</span>
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/20" />
+            </div>
+            <p className="text-[11px] font-semibold text-foreground/25 tracking-wider">
+              {t('home.footer_copyright', { year: new Date().getFullYear() })}
+            </p>
+            <p className="mt-3 text-[10px] text-foreground/15 tracking-wide">
+              {t('home.footer_data')}
+            </p>
+          </div>
         </footer>
       </div>
     </HydrationBoundary>
   );
 }
-

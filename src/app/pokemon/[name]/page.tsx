@@ -218,16 +218,20 @@ export default function PokemonDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground pb-20 overflow-x-hidden">
+    <div className="min-h-screen bg-background text-foreground pb-20 overflow-x-hidden relative">
       {/* Dynamic Background */}
-      <div className="fixed inset-0 pointer-events-none opacity-20">
+      <div className="fixed inset-0 pointer-events-none opacity-25 z-0">
         <div
-          className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[120px] mix-blend-screen"
+          className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] rounded-full blur-[140px] mix-blend-screen animate-pulse-glow"
           style={{ backgroundColor: color }}
         />
         <div
-          className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full blur-[100px] mix-blend-screen opacity-50"
-          style={{ backgroundColor: color }}
+          className="absolute bottom-[-10%] right-[-10%] w-[45%] h-[45%] rounded-full blur-[120px] mix-blend-screen opacity-40"
+          style={{ backgroundColor: color, animationDelay: '-2s' }}
+        />
+        <div
+          className="absolute top-[40%] left-[50%] -translate-x-1/2 w-[30%] h-[30%] rounded-full blur-[100px] mix-blend-screen opacity-15"
+          style={{ backgroundColor: color, animationDelay: '-4s' }}
         />
       </div>
 
@@ -235,7 +239,7 @@ export default function PokemonDetailPage() {
       <div className="relative min-h-[50vh] w-full flex flex-col items-center justify-end pb-16 pt-28">
         <button
           onClick={() => router.back()}
-          className="absolute top-8 left-6 md:left-12 p-3 bg-secondary/30 backdrop-blur-md rounded-full border border-white/10 z-30 text-foreground/70 hover:text-foreground hover:bg-white/10 hover:scale-105 transition-all"
+          className="absolute top-8 left-6 md:left-12 p-3 bg-white/[0.04] backdrop-blur-2xl rounded-full border border-white/[0.06] z-30 text-foreground/50 hover:text-foreground hover:bg-white/[0.08] hover:border-white/[0.12] hover:scale-105 transition-all duration-300 shadow-lg"
           aria-label={t('common.back') || 'Go back'}
         >
           <ArrowLeft className="w-6 h-6" />
@@ -246,7 +250,7 @@ export default function PokemonDetailPage() {
             variant="outline"
             size="icon"
             onClick={() => router.push(`/quiz?pokemon=${pokemon.name}`)}
-            className="rounded-full transition-all h-12 w-12 bg-secondary/30 border-white/10 text-foreground/80 hover:bg-purple-500/20 hover:text-purple-500 hover:border-purple-500/50"
+            className="rounded-full transition-all h-12 w-12 bg-white/[0.04] border-white/[0.06] text-foreground/60 hover:bg-purple-500/15 hover:text-purple-400 hover:border-purple-500/30 backdrop-blur-xl"
             title={t('detail.test_knowledge')}
             aria-label={t('detail.test_knowledge_aria', { name: displayName })}
           >
@@ -257,7 +261,7 @@ export default function PokemonDetailPage() {
             variant="outline"
             size="icon"
             onClick={handleShare}
-            className="rounded-full transition-all h-12 w-12 bg-secondary/30 border-white/10 text-foreground/80 hover:bg-secondary/50"
+            className="rounded-full transition-all h-12 w-12 bg-white/[0.04] border-white/[0.06] text-foreground/60 hover:bg-white/[0.08] hover:border-white/[0.12] backdrop-blur-xl"
             title={t('detail.share')}
             aria-label={t('detail.share') || 'Share this Pokémon'}
           >
@@ -271,8 +275,8 @@ export default function PokemonDetailPage() {
             className={cn(
               "rounded-full gap-2 font-black uppercase tracking-widest text-[10px] transition-all h-12 px-5",
               showShiny 
-                ? "bg-yellow-500/20 border-yellow-500/50 text-yellow-600 dark:text-yellow-400" 
-                : "bg-secondary/30 border-white/10 text-foreground/60"
+                ? "bg-yellow-500/15 border-yellow-500/30 text-yellow-400 shadow-[0_4px_16px_-4px_rgba(234,179,8,0.3)]" 
+                : "bg-white/[0.04] border-white/[0.06] text-foreground/50 backdrop-blur-xl"
             )}
             title={t('detail.shiny')}
             aria-label={showShiny ? t('detail.show_normal') || 'Show normal version' : t('detail.show_shiny') || 'Show shiny version'}
@@ -288,8 +292,8 @@ export default function PokemonDetailPage() {
             className={cn(
               "rounded-full transition-all h-12 w-12",
               isFav 
-                ? "bg-red-500/20 border-red-500/50 text-red-500 hover:bg-red-500/30" 
-                : "bg-secondary/30 border-white/10 text-foreground/40 hover:text-red-500/60"
+                ? "bg-rose-500/15 border-rose-500/30 text-rose-400 hover:bg-rose-500/20 shadow-[0_4px_16px_-4px_rgba(244,63,94,0.3)]" 
+                : "bg-white/[0.04] border-white/[0.06] text-foreground/40 hover:text-rose-400/60 backdrop-blur-xl"
             )}
             title={isFav ? t('card.remove_favorite') : t('card.add_favorite')}
             aria-label={isFav ? t('card.remove_favorite') || 'Remove from favorites' : t('card.add_favorite') || 'Add to favorites'}

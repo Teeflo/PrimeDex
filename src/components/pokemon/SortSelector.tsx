@@ -30,12 +30,12 @@ export default function SortSelector() {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-foreground/30 hidden sm:block">{t('sort.label')}</span>
+      <span className="text-[9px] font-black uppercase tracking-[0.2em] text-foreground/25 hidden sm:block">{t('sort.label')}</span>
       <Select value={sortBy} onValueChange={(val: SortValue | null) => val && setSortBy(val)}>
-        <SelectTrigger className="w-[200px] rounded-full bg-secondary/40 backdrop-blur-md border-white/10 text-xs font-bold uppercase tracking-wider h-10 focus:ring-primary/30">
+        <SelectTrigger className="w-[200px] rounded-full bg-white/[0.03] backdrop-blur-xl border-white/[0.06] text-[11px] font-bold uppercase tracking-wider h-10 focus:ring-primary/20 hover:border-white/[0.12] transition-all">
           <SelectValue placeholder={t('sort.placeholder')} />
         </SelectTrigger>
-        <SelectContent className="bg-background/95 backdrop-blur-xl border-white/10 rounded-2xl p-1">
+        <SelectContent className="bg-background/95 backdrop-blur-2xl border-white/[0.08] rounded-2xl p-1 shadow-[0_16px_64px_rgba(0,0,0,0.3)]">
           {options.map((opt) => (
             <SelectItem 
               key={opt.value} 
@@ -43,7 +43,7 @@ export default function SortSelector() {
               className="rounded-xl focus:bg-primary/10 focus:text-primary transition-colors cursor-pointer py-2.5"
             >
               <div className="flex items-center gap-2">
-                <opt.icon className="w-3.5 h-3.5 opacity-50" />
+                <opt.icon className="w-3.5 h-3.5 opacity-40" />
                 <span className="text-[11px] font-bold uppercase tracking-tight">{opt.label}</span>
               </div>
             </SelectItem>
@@ -53,4 +53,3 @@ export default function SortSelector() {
     </div>
   );
 }
-
