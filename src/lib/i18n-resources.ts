@@ -14,6 +14,9 @@ export const resources = {
         watch_out: 'Watch out for {{types}} moves. These will deal double damage to your {{type}} Pokémon.',
         not_effective: 'Your {{type}} moves are not very effective against {{types}}. Try to switch or use coverage moves!',
       },
+      pokemon: {
+        artwork: 'Official artwork of {{name}}',
+      },
       home: {
         hero_title: 'PrimeDex',
         hero_subtitle: 'The Ultimate Pokémon Companion',
@@ -570,6 +573,9 @@ export const resources = {
         tips_title: 'Conseils stratégiques pour le type {{type}}',
         watch_out: 'Attention aux capacités de type {{types}}. Elles infligent des dégâts doublés à vos Pokémon {{type}}.',
         not_effective: 'Vos capacités {{type}} ne sont pas très efficaces contre le type {{types}}. Essayez de changer ou d\'utiliser des capacités de couverture !',
+      },
+      pokemon: {
+        artwork: 'Illustration officielle de {{name}}',
       },
       home: {
         hero_title: 'PrimeDex',

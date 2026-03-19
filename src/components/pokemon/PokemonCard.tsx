@@ -218,6 +218,7 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
             <m.button
               whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}
               onClick={toggleTeam} disabled={!isTeam && teamFull}
+              aria-label={isTeam ? t('card.remove_team') : t('card.add_team')}
               className={cn(
                 "p-2 rounded-full backdrop-blur-xl transition-all duration-300 border",
                 isTeam 
@@ -232,6 +233,7 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
             <m.button
               whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}
               onClick={toggleCompare} disabled={!isComp && compareFull}
+              aria-label={isComp ? t('card.remove_compare') : t('card.add_compare')}
               className={cn(
                 "p-2 rounded-full backdrop-blur-xl transition-all duration-300 border",
                 isComp 
@@ -246,6 +248,7 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
             <m.button
               whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.85 }}
               onClick={toggleFavorite}
+              aria-label={isFav ? t('card.remove_favorite') : t('card.add_favorite')}
               className={cn(
                 "p-2 rounded-full backdrop-blur-xl transition-all duration-300 border",
                 isFav 
@@ -267,7 +270,9 @@ export const PokemonCard = memo(function PokemonCard({ name, url, index = 0, ini
             style={{ backgroundColor: color }} 
           />
           <Image
-            src={spriteUrl} alt={displayName} width={160} height={160}
+            src={spriteUrl} 
+            alt={t('pokemon.artwork', { name: displayName })} 
+            width={160} height={160}
             className="w-full h-full object-contain drop-shadow-2xl transition-all duration-700 ease-out group-hover:scale-[1.2] group-hover:-translate-y-4 relative z-10"
             priority={index < 10}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"

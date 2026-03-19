@@ -6,6 +6,8 @@ import { cn } from "@/lib/utils";
 import { Agentation } from "agentation";
 import { t } from '@/lib/server-i18n';
 import { AppContent } from "./AppContent";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import Script from "next/script";
 
 const displayFont = Space_Grotesk({
   subsets: ["latin"],
@@ -80,10 +82,47 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const websiteJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'PrimeDex',
+    url: 'https://primedex.vercel.app',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: 'https://primedex.vercel.app/?search={search_term_string}',
+      'query-input': 'required name=search_term_string',
+    },
+  };
+
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'PrimeDex',
+    url: 'https://primedex.vercel.app',
+    logo: 'https://primedex.vercel.app/icon.svg',
+    sameAs: [
+      'https://twitter.com/primedex',
+      'https://github.com/primedex',
+    ],
+  };
+
   return (
     <html lang="en" suppressHydrationWarning className={cn("font-body", displayFont.variable, bodyFont.variable)}>
+      <head>
+        <script
+          id="website-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          id="organization-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+      </head>
       <body className="antialiased bg-background text-foreground font-body">
         <Providers>
+          <Breadcrumbs />
           <AppContent>
             {children}
           </AppContent>
