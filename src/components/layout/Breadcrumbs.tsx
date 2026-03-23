@@ -29,29 +29,46 @@ export function Breadcrumbs() {
     })
   ];
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.label,
+      item: `https://primedex.vercel.app${crumb.href}`,
+    })),
+  };
+
   return (
-    <nav 
-      aria-label="Breadcrumb" 
-      className="flex items-center space-x-2 text-xs font-medium text-foreground/40 py-4 px-6 md:px-12 bg-background/50 backdrop-blur-md border-b border-white/5 sticky top-16 z-40"
-    >
-      <ol className="flex items-center space-x-2 list-none p-0 m-0">
-        {breadcrumbs.map((crumb, index) => (
-          <li key={crumb.href} className="flex items-center">
-            {index > 0 && <ChevronRight className="w-3 h-3 mx-2 opacity-30" />}
-            <Link
-              href={crumb.href}
-              className={cn(
-                "hover:text-primary transition-colors flex items-center gap-1.5",
-                index === breadcrumbs.length - 1 ? "text-foreground/80 font-bold pointer-events-none" : ""
-              )}
-              aria-current={index === breadcrumbs.length - 1 ? "page" : undefined}
-            >
-              {crumb.icon && <Home className="w-3 h-3" />}
-              {crumb.label}
-            </Link>
-          </li>
-        ))}
-      </ol>
-    </nav>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <nav 
+        aria-label="Breadcrumb" 
+        className="flex items-center space-x-2 text-xs font-medium text-foreground/40 py-4 px-6 md:px-12 bg-background/50 backdrop-blur-md border-b border-white/5 sticky top-16 z-40"
+      >
+        <ol className="flex items-center space-x-2 list-none p-0 m-0">
+          {breadcrumbs.map((crumb, index) => (
+            <li key={crumb.href} className="flex items-center">
+              {index > 0 && <ChevronRight className="w-3 h-3 mx-2 opacity-30" />}
+              <Link
+                href={crumb.href}
+                className={cn(
+                  "hover:text-primary transition-colors flex items-center gap-1.5",
+                  index === breadcrumbs.length - 1 ? "text-foreground/80 font-bold pointer-events-none" : ""
+                )}
+                aria-current={index === breadcrumbs.length - 1 ? "page" : undefined}
+              >
+                {crumb.icon && <Home className="w-3 h-3" />}
+                {crumb.label}
+              </Link>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </>
   );
 }

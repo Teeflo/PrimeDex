@@ -305,8 +305,24 @@ export default function PokemonList() {
     );
   }
 
+  const itemListJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    numberOfItems: filteredAndSortedResults.length,
+    itemListElement: displayedPokemon.map((p, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      name: p.localizedNames?.find((n: any) => n.language === resolvedLang)?.name || p.name,
+      url: `https://primedex.vercel.app/pokemon/${p.name}`,
+    })),
+  };
+
   return (
     <div className="space-y-8 pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
+      />
       {!isBasicMode && (
         <div className="flex flex-wrap items-center justify-between gap-4 px-4 py-2 bg-secondary/10 rounded-2xl border border-white/5 mx-2 mt-8">
           <div className="flex items-center gap-2">

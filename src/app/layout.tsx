@@ -38,10 +38,6 @@ export const metadata: Metadata = {
   category: "games",
   alternates: {
     canonical: "/",
-    languages: {
-      "en": "/en",
-      "fr": "/fr"
-    }
   },
   robots: {
     index: true,
@@ -59,7 +55,14 @@ export const metadata: Metadata = {
     description: t("meta.og_description"),
     type: "website",
     siteName: t("meta.site_name"),
-    url: "/",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "PrimeDex — The Ultimate Online Pokédex",
+      },
+    ],
     locale: "en_US",
     alternateLocale: ["fr_FR"],
   },
@@ -101,8 +104,7 @@ export default function RootLayout({
     url: 'https://primedex.vercel.app',
     logo: 'https://primedex.vercel.app/icon.svg',
     sameAs: [
-      'https://twitter.com/primedex',
-      'https://github.com/primedex',
+      'https://github.com/Teeflo/PrimeDex',
     ],
   };
 
